@@ -1,0 +1,241 @@
+country,variable,Mean,Sd,Min,Max
+Argentina,credit,1.43,10.61,-91.22,61.23
+Argentina,gdp,0.57,2.18,-7.51,8.43
+Argentina,inf,-0.01,15.85,-152.15,94.27
+Argentina,stock,NA,NA,Inf,-Inf
+Argentina,yield,NA,NA,Inf,-Inf
+Australia,credit,1.73,1.43,-2.15,6.49
+Australia,gdp,0.84,1.02,-2.04,4.33
+Australia,inf,0,0.98,-3.84,4.88
+Australia,stock,1.45,7.84,-48.9,19.59
+Australia,yield,-1.58,47.75,-165,183.33
+Austria,credit,1.28,1.94,-4.19,7.84
+Austria,gdp,0.68,0.73,-1.9,3.61
+Austria,inf,0,1.62,-12.86,7.67
+Austria,stock,1.21,8.89,-60.55,45.42
+Austria,yield,NA,NA,Inf,-Inf
+Belgium,credit,1.11,2.36,-6.7,10.08
+Belgium,gdp,0.65,0.77,-2.33,3.83
+Belgium,inf,0,0.62,-2.21,1.8
+Belgium,stock,1.03,7.08,-37.02,21.39
+Belgium,yield,-1.97,33.65,-139,109.33
+Bolivia,credit,2.27,10.05,-58.44,71.11
+Bolivia,gdp,NA,NA,Inf,-Inf
+Bolivia,inf,-0.01,13.04,-103.94,68.83
+Bolivia,stock,NA,NA,Inf,-Inf
+Bolivia,yield,NA,NA,Inf,-Inf
+Brazil,credit,1.74,7.06,-40.86,33.84
+Brazil,gdp,0.95,1.59,-7.99,6.64
+Brazil,inf,-0.04,11.12,-115.14,49.2
+Brazil,stock,NA,NA,Inf,-Inf
+Brazil,yield,NA,NA,Inf,-Inf
+Canada,credit,1.49,1.75,-3.13,7.51
+Canada,gdp,0.76,0.86,-2.29,3.1
+Canada,inf,0,0.69,-2.55,1.7
+Canada,stock,1.43,6.85,-37.24,18.95
+Canada,yield,-1.45,47.43,-218.67,214.67
+Chile,credit,2.59,7.68,-34.2,54.01
+Chile,gdp,0.97,2.36,-14.37,10.81
+Chile,inf,0,6.93,-45.24,38.83
+Chile,stock,7.48,16.14,-38.06,87.9
+Chile,yield,NA,NA,Inf,-Inf
+Colombia,credit,1.07,3.76,-18.56,12.52
+Colombia,gdp,NA,NA,Inf,-Inf
+Colombia,inf,0,3.71,-22.31,22.31
+Colombia,stock,NA,NA,Inf,-Inf
+Colombia,yield,NA,NA,Inf,-Inf
+Costa Rica,credit,1.45,4.24,-17.53,12.71
+Costa Rica,gdp,NA,NA,Inf,-Inf
+Costa Rica,inf,0,1.88,-10.91,5.88
+Costa Rica,stock,NA,NA,Inf,-Inf
+Costa Rica,yield,NA,NA,Inf,-Inf
+Cyprus,credit,1.6,3.34,-16.11,12.89
+Cyprus,gdp,NA,NA,Inf,-Inf
+Cyprus,inf,0,2.12,-5.56,4.91
+Cyprus,stock,NA,NA,Inf,-Inf
+Cyprus,yield,NA,NA,Inf,-Inf
+Denmark,credit,1.03,1.48,-2.68,7.15
+Denmark,gdp,0.6,1.47,-8.23,6.25
+Denmark,inf,-0.01,1.08,-4.14,4.02
+Denmark,stock,2.08,7.89,-39.44,29.92
+Denmark,yield,-3.05,63.14,-333.75,274.81
+El Salvador,credit,NA,NA,Inf,-Inf
+El Salvador,gdp,NA,NA,Inf,-Inf
+El Salvador,inf,0,1.62,-4.59,4.92
+El Salvador,stock,NA,NA,Inf,-Inf
+El Salvador,yield,NA,NA,Inf,-Inf
+Finland,credit,1.24,1.93,-5.08,14.12
+Finland,gdp,0.69,1.22,-7.01,4.87
+Finland,inf,0,0.9,-3.7,4.13
+Finland,stock,2.11,10.15,-34.82,41.6
+Finland,yield,NA,NA,Inf,-Inf
+France,credit,1.12,1.92,-4.4,7.73
+France,gdp,0.69,0.93,-5.43,7.72
+France,inf,0,0.57,-1.69,1.46
+France,stock,1.32,8.17,-32.54,22.72
+France,yield,-2.31,41.59,-161.67,181.33
+Germany,credit,0.92,1.36,-2.22,5.37
+Germany,gdp,0.61,0.99,-4.79,3.9
+Germany,inf,0,0.71,-1.77,2.55
+Germany,stock,1.06,7.89,-31.83,23.03
+Germany,yield,-2.53,36.87,-136.67,107.33
+Greece,credit,1.28,2.95,-6.63,10.33
+Greece,gdp,0.68,1.85,-4.86,7.75
+Greece,inf,0,2.78,-6.62,6.69
+Greece,stock,NA,NA,Inf,-Inf
+Greece,yield,NA,NA,Inf,-Inf
+Guatemala,credit,1.15,11.02,-143.98,58.36
+Guatemala,gdp,NA,NA,Inf,-Inf
+Guatemala,inf,0.01,2.02,-7.51,8.51
+Guatemala,stock,NA,NA,Inf,-Inf
+Guatemala,yield,NA,NA,Inf,-Inf
+Honduras,credit,1.66,3.18,-10.5,11.8
+Honduras,gdp,NA,NA,Inf,-Inf
+Honduras,inf,0.01,1.85,-5.78,4.52
+Honduras,stock,NA,NA,Inf,-Inf
+Honduras,yield,NA,NA,Inf,-Inf
+Iceland,credit,1.48,4.96,-14.86,28
+Iceland,gdp,0.93,2.07,-9.14,9.53
+Iceland,inf,0,2.87,-14.71,11.54
+Iceland,stock,NA,NA,Inf,-Inf
+Iceland,yield,NA,NA,Inf,-Inf
+India,credit,1.8,4.11,-11.03,15.46
+India,gdp,1.33,1.83,-7.15,8.53
+India,inf,0.01,2.54,-12.91,8.55
+India,stock,2.33,10.58,-63.53,36.86
+India,yield,NA,NA,Inf,-Inf
+Ireland,credit,0.97,3.36,-10.32,10.98
+Ireland,gdp,1.12,2.01,-6.04,20.9
+Ireland,inf,0,1.34,-6.71,4.34
+Ireland,stock,1.98,9.4,-49.18,34.5
+Ireland,yield,-1.68,66.16,-219.43,239.7
+Israel,credit,2.55,4.94,-17.2,45.09
+Israel,gdp,1.2,1.85,-12.08,9.89
+Israel,inf,-0.01,4.11,-30.45,22.73
+Israel,stock,5.41,13.73,-83.66,60.54
+Israel,yield,NA,NA,Inf,-Inf
+Italy,credit,1.01,2.59,-5.41,9
+Italy,gdp,0.61,1.19,-3.21,10.18
+Italy,inf,-0.01,1.01,-4.65,3.93
+Italy,stock,1.06,9.9,-30.39,34.85
+Italy,yield,-1.66,56.09,-230.33,234
+Japan,credit,1.04,2.05,-6.51,7.62
+Japan,gdp,0.91,1.21,-4.9,3.43
+Japan,inf,0,1.24,-4.45,4.72
+Japan,stock,1.31,8.11,-35.51,22.45
+Japan,yield,-3.28,34.88,-122.26,150.05
+Korea,credit,2.86,3.79,-13.21,19.07
+Korea,gdp,1.75,1.94,-7.06,7.75
+Korea,inf,-0.01,2.69,-13.32,17.21
+Korea,stock,NA,NA,Inf,-Inf
+Korea,yield,NA,NA,Inf,-Inf
+Luxembourg,credit,NA,NA,Inf,-Inf
+Luxembourg,gdp,0.89,1.73,-5.15,6.45
+Luxembourg,inf,0,0.86,-2.62,2.36
+Luxembourg,stock,NA,NA,Inf,-Inf
+Luxembourg,yield,NA,NA,Inf,-Inf
+Malaysia,credit,2.86,3.69,-6.87,24.14
+Malaysia,gdp,NA,NA,Inf,-Inf
+Malaysia,inf,0,1.09,-5.59,3.19
+Malaysia,stock,NA,NA,Inf,-Inf
+Malaysia,yield,NA,NA,Inf,-Inf
+Malta,credit,NA,NA,Inf,-Inf
+Malta,gdp,NA,NA,Inf,-Inf
+Malta,inf,-0.01,1.58,-4.43,4.73
+Malta,stock,NA,NA,Inf,-Inf
+Malta,yield,NA,NA,Inf,-Inf
+Mexico,credit,1.41,5.7,-31.17,27.87
+Mexico,gdp,0.92,1.63,-5.97,7.58
+Mexico,inf,0,2.62,-22.01,8.79
+Mexico,stock,5.23,15.02,-71.59,69.71
+Mexico,yield,NA,NA,Inf,-Inf
+Morocco,credit,1.61,3.73,-13,12.12
+Morocco,gdp,1.09,3,-14.32,16.94
+Morocco,inf,-0.01,1.86,-6.74,4.15
+Morocco,stock,NA,NA,Inf,-Inf
+Morocco,yield,NA,NA,Inf,-Inf
+Netherlands,credit,1.47,1.95,-3.52,8.05
+Netherlands,gdp,0.71,1.03,-5.03,5.66
+Netherlands,inf,0,1.07,-5.87,4.01
+Netherlands,stock,1.16,7.78,-41.89,17.33
+Netherlands,yield,-1.88,36.94,-123.33,131
+New Zealand,credit,1.48,3.59,-12.22,16.62
+New Zealand,gdp,0.72,1.63,-7.94,11.31
+New Zealand,inf,0,1.11,-6.23,5.47
+New Zealand,stock,1.3,7.56,-44.12,22.67
+New Zealand,yield,-1.53,61.4,-232.78,434.58
+Norway,credit,1.26,1.93,-5.13,8.09
+Norway,gdp,0.77,1.18,-2.64,3.96
+Norway,inf,0,1.08,-5,5.76
+Norway,stock,1.92,9.98,-50.96,33.78
+Norway,yield,-1.37,36.67,-145,156
+Pakistan,credit,1.57,5.84,-20.79,23.8
+Pakistan,gdp,1.24,1.6,-5.07,8.74
+Pakistan,inf,0.01,2.22,-10.01,11.29
+Pakistan,stock,NA,NA,Inf,-Inf
+Pakistan,yield,NA,NA,Inf,-Inf
+Peru,credit,1.5,8.31,-51.75,33.6
+Peru,gdp,NA,NA,Inf,-Inf
+Peru,inf,-0.01,15.33,-155.53,123.06
+Peru,stock,8.34,34.56,-46.74,337.32
+Peru,yield,NA,NA,Inf,-Inf
+Philippines,credit,1.6,4.82,-22.6,12.87
+Philippines,gdp,1.75,10.84,-10.11,162.12
+Philippines,inf,-0.02,2.78,-12.38,10.96
+Philippines,stock,1.44,13.42,-35.63,108.54
+Philippines,yield,NA,NA,Inf,-Inf
+Portugal,credit,1.13,2.71,-7.08,7.07
+Portugal,gdp,0.77,1.23,-2.55,6.12
+Portugal,inf,-0.01,1.85,-7.76,5.55
+Portugal,stock,NA,NA,Inf,-Inf
+Portugal,yield,0.03,71.69,-376,306.67
+South Africa,credit,1.23,2.18,-3.77,8.67
+South Africa,gdp,0.71,1.03,-2.14,4.91
+South Africa,inf,0,0.98,-3.6,3.4
+South Africa,stock,2.39,8.78,-26.11,23.66
+South Africa,yield,1.59,60.5,-207,338.67
+Spain,credit,1.24,2.47,-7.46,8.45
+Spain,gdp,0.87,1.04,-2.65,4.41
+Spain,inf,0,1.49,-3.83,3.55
+Spain,stock,1.5,9.12,-28.21,35.52
+Spain,yield,NA,NA,Inf,-Inf
+Sweden,credit,0.96,1.65,-6.07,5.97
+Sweden,gdp,0.63,0.87,-3.89,3.35
+Sweden,inf,0,1.12,-4.16,3.13
+Sweden,stock,2.26,8.54,-29.02,33
+Sweden,yield,-1.92,44.67,-176.33,206.33
+Switzerland,credit,0.91,1.34,-5.04,5.23
+Switzerland,gdp,0.55,0.89,-5.32,2.61
+Switzerland,inf,0,0.82,-2.48,3.23
+Switzerland,stock,1.41,7.29,-33.78,16.2
+Switzerland,yield,-1.55,27.35,-82,87.33
+Taiwan,credit,2.43,3,-14.21,11.59
+Taiwan,gdp,1.65,1.54,-4.59,8.09
+Taiwan,inf,0,2.29,-16.46,7.93
+Taiwan,stock,NA,NA,Inf,-Inf
+Taiwan,yield,NA,NA,Inf,-Inf
+Thailand,credit,2.24,3.18,-8.83,13.08
+Thailand,gdp,NA,NA,Inf,-Inf
+Thailand,inf,0.01,1.52,-5.96,7.7
+Thailand,stock,NA,NA,Inf,-Inf
+Thailand,yield,NA,NA,Inf,-Inf
+Turkey,credit,1.81,6.21,-25.07,17.86
+Turkey,gdp,1.11,2.06,-10.73,6.92
+Turkey,inf,0,4.45,-20.32,14.26
+Turkey,stock,NA,NA,Inf,-Inf
+Turkey,yield,NA,NA,Inf,-Inf
+United Kingdom,credit,1.24,1.95,-4.21,7.3
+United Kingdom,gdp,0.59,0.93,-2.78,4.86
+United Kingdom,inf,0,1.3,-7.69,3.74
+United Kingdom,stock,1.53,7.53,-27.09,35.22
+United Kingdom,yield,-1.78,54.14,-188,175.67
+United States,credit,0.8,1.52,-3.91,3.95
+United States,gdp,0.75,0.81,-2.19,3.79
+United States,inf,0,0.65,-4.03,2.37
+United States,stock,1.5,6.2,-36.29,18.66
+United States,yield,-1.16,46.44,-244.67,154
+Uruguay,credit,-0.24,7.01,-31.05,21.99
+Uruguay,gdp,0.57,1.97,-6.63,9
+Uruguay,inf,-0.01,3.77,-17.02,17.52
+Uruguay,stock,NA,NA,Inf,-Inf
+Uruguay,yield,NA,NA,Inf,-Inf
