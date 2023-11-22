@@ -10,9 +10,8 @@ library(QregBB)
 ########################################################
 # Importa datos de consolidados
 rm(list = ls()) # Limpiar environment
-setwd("C:\Users\igarron\Documents\PhD in Economics\Paper 1\REV")
-data <- read.csv("Data_final.csv")
-fci <- read.csv("nfci.csv")[,-c(1,2)]
+data <- read.csv("../Data/Data_final.csv")
+fci <- read.csv("../Data/nfci.csv")[,-c(1,2)]
 
 # Vector de tiempo a partir de POSIXct
 data$date   <-as.Date(data$date) # fechas forma 1
@@ -60,6 +59,11 @@ tabla_raw<-data.frame(matrix(nrow=length(credit_countries),ncol=6))
 tabla_raw[,1]<-credit_countries
 colnames(tabla_raw)<-c("country","q=0.05","q=0.25","q=0.50","q=0.75","q=0.95")
 
+tabla_raw_pred<-data.frame(matrix(ncol=length(credit_countries),nrow=176)) #length fci 1973-1
+colnames(tabla_raw_pred)<-credit_countries
+rownames(tabla_raw_pred)<-date$date
+
+
 # M1: y_t+h=b1*y_t+b2*nfci_t+b3*fci_t+b4*g_macro+b5*g_fin
 M1_credit_factor_fci_coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
@@ -105,7 +109,7 @@ M2_credit_factor_fci_sig_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
 M2_credit_factor_fci_sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                                  "h8"=tabla_raw,"h12"=tabla_raw)
 
-# M3: y_t+h=b1*y_t+b2*nfci_t+b3*fu_t+b4*fci_t+b5*g_macro+b6*g_fin
+# M3: y_t+h=b1*y_t+b2*nfci_t+b3*fci_t+b5*g_macro+b6*g_fin
 M3_credit_factor_fci_coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
 M3_credit_factor_fci_coef_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
@@ -133,12 +137,22 @@ M3_credit_factor_fci_sig_b6=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                                  "h8"=tabla_raw,"h12"=tabla_raw)
 
 #TL predictions
-M1_credit_factor_fci_TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+M1_credit_factor_fci_TL=
+  list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                          "h8"=tabla_raw,"h12"=tabla_raw)
 M2_credit_factor_fci_TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                          "h8"=tabla_raw,"h12"=tabla_raw)
 M3_credit_factor_fci_TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                          "h8"=tabla_raw,"h12"=tabla_raw)
+
+
+#CaR predictions
+M1_credit_factor_fci_pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
+                             "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
+M2_credit_factor_fci_pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
+                               "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
+M3_credit_factor_fci_pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
+                               "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
 
 
 banner("Parte 2:", "Quantile regressions for credit", emph = TRUE)
@@ -169,9 +183,10 @@ for (h in h_horizon){
                 inf_z=inf,
                 yield_z=yield,
                 NFCI_z=NFCI,
-                fci_z=fci,
-                f_global_z=global_factor,
-                f_fin_z=fin_factor,
+                fci_z=fci, 
+                credit_f_z=credit_f, # credit factor
+                f_global_z=wpi,
+                f_fin_z=SV,
                 USUN_z=USUN) %>% 
     mutate(stock_h=lead(stock_z,h),
            credit_h=lead(credit_z,h),
@@ -186,13 +201,13 @@ for (h in h_horizon){
     Y.train=as.matrix(data_model[,"credit_h"])
     
     if (h==0){
-      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","fci_z","f_global_z","f_fin_z")]))
-      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("USUN_z","fci_z","f_global_z","f_fin_z")]))
-      X.train3<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","USUN_z","fci_z","f_global_z","f_fin_z")]))
+      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","credit_f_z","f_global_z","f_fin_z")]))
+      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("USUN_z","credit_f_z","f_global_z","f_fin_z")]))
+      X.train3<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","fci_z","credit_f_z","f_global_z","f_fin_z")]))
     } else {
-      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","fci_z","f_global_z","f_fin_z")]))
-      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","USUN_z","fci_z","f_global_z","f_fin_z")]))
-      X.train3<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","USUN_z","fci_z","f_global_z","f_fin_z")]))
+      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","credit_f_z","f_global_z","f_fin_z")]))
+      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","USUN_z","credit_f_z","f_global_z","f_fin_z")]))
+      X.train3<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","fci_z","credit_f_z","f_global_z","f_fin_z")]))
     }
     
     tau_q =c(0.05,0.25,0.50,0.75,0.95) # aca empieza loop quantile
@@ -211,6 +226,7 @@ for (h in h_horizon){
       
       #TL
       pred=(as.matrix(X.train1)%*%as.matrix(M1$beta.hat))
+      M1_credit_factor_fci_pred
       M1_credit_factor_fci_TL[[paste0("h",h)]][M1_credit_factor_fci_TL[[paste0("h",h)]]$country==country_name,j]=
         mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
       
@@ -423,56 +439,56 @@ for (h in h_horizon){
 
 
 
-save(M1_credit_factor_fci_coef_b1,file ="M1_credit_factor_fci_coef_b1.RData")
-save(M2_credit_factor_fci_coef_b1,file ="M2_credit_factor_fci_coef_b1.RData")
-save(M3_credit_factor_fci_coef_b1,file ="M3_credit_factor_fci_coef_b1.RData")
+save(M1_credit_factor_fci_coef_b1,file ="M1_credit_baseline_coef_b1.RData")
+save(M2_credit_factor_fci_coef_b1,file ="M2_credit_baseline_coef_b1.RData")
+save(M3_credit_factor_fci_coef_b1,file ="M3_credit_baseline_coef_b1.RData")
 
-save(M1_credit_factor_fci_coef_b2,file ="M1_credit_factor_fci_coef_b2.RData")
-save(M2_credit_factor_fci_coef_b2,file ="M2_credit_factor_fci_coef_b2.RData")
-save(M3_credit_factor_fci_coef_b2,file ="M3_credit_factor_fci_coef_b2.RData")
+save(M1_credit_factor_fci_coef_b2,file ="M1_credit_baseline_coef_b2.RData")
+save(M2_credit_factor_fci_coef_b2,file ="M2_credit_baseline_coef_b2.RData")
+save(M3_credit_factor_fci_coef_b2,file ="M3_credit_baseline_coef_b2.RData")
 
-save(M1_credit_factor_fci_coef_b3,file ="M1_credit_factor_fci_coef_b3.RData")
-save(M2_credit_factor_fci_coef_b3,file ="M2_credit_factor_fci_coef_b3.RData")
-save(M3_credit_factor_fci_coef_b3,file ="M3_credit_factor_fci_coef_b3.RData")
+save(M1_credit_factor_fci_coef_b3,file ="M1_credit_baseline_b3.RData")
+save(M2_credit_factor_fci_coef_b3,file ="M2_credit_baseline_b3.RData")
+save(M3_credit_factor_fci_coef_b3,file ="M3_credit_baseline_b3.RData")
 
-save(M1_credit_factor_fci_coef_b4,file ="M1_credit_factor_fci_coef_b4.RData")
-save(M2_credit_factor_fci_coef_b4,file ="M2_credit_factor_fci_coef_b4.RData")
-save(M3_credit_factor_fci_coef_b4,file ="M3_credit_factor_fci_coef_b4.RData")
+save(M1_credit_factor_fci_coef_b4,file ="M1_credit_baseline_b4.RData")
+save(M2_credit_factor_fci_coef_b4,file ="M2_credit_baseline_b4.RData")
+save(M3_credit_factor_fci_coef_b4,file ="M3_credit_baseline_b4.RData")
 
-save(M1_credit_factor_fci_coef_b5,file ="M1_credit_factor_fci_coef_b5.RData")
-save(M2_credit_factor_fci_coef_b5,file ="M2_credit_factor_fci_coef_b5.RData")
-save(M3_credit_factor_fci_coef_b5,file ="M3_credit_factor_fci_coef_b5.RData")
+save(M1_credit_factor_fci_coef_b5,file ="M1_credit_baseline_b5.RData")
+save(M2_credit_factor_fci_coef_b5,file ="M2_credit_baseline_b5.RData")
+save(M3_credit_factor_fci_coef_b5,file ="M3_credit_baseline_b5.RData")
 
-save(M3_credit_factor_fci_coef_b6,file ="M3_credit_factor_fci_coef_b6.RData")
-
-
-save(M1_credit_factor_fci_sig_b1,file ="M1_credit_factor_fci_sig_b1.RData")
-save(M2_credit_factor_fci_sig_b1,file ="M2_credit_factor_fci_sig_b1.RData")
-save(M3_credit_factor_fci_sig_b1,file ="M3_credit_factor_fci_sig_b1.RData")
-
-save(M1_credit_factor_fci_sig_b2,file ="M1_credit_factor_fci_sig_b2.RData")
-save(M2_credit_factor_fci_sig_b2,file ="M2_credit_factor_fci_sig_b2.RData")
-save(M3_credit_factor_fci_sig_b2,file ="M3_credit_factor_fci_sig_b2.RData")
-
-save(M1_credit_factor_fci_sig_b3,file ="M1_credit_factor_fci_sig_b3.RData")
-save(M2_credit_factor_fci_sig_b3,file ="M2_credit_factor_fci_sig_b3.RData")
-save(M3_credit_factor_fci_sig_b3,file ="M3_credit_factor_fci_sig_b3.RData")
-
-save(M1_credit_factor_fci_sig_b4,file ="M1_credit_factor_fci_sig_b4.RData")
-save(M2_credit_factor_fci_sig_b4,file ="M2_credit_factor_fci_sig_b4.RData")
-save(M3_credit_factor_fci_sig_b4,file ="M3_credit_factor_fci_sig_b4.RData")
-
-save(M1_credit_factor_fci_sig_b5,file ="M1_credit_factor_fci_sig_b5.RData")
-save(M2_credit_factor_fci_sig_b5,file ="M2_credit_factor_fci_sig_b5.RData")
-save(M3_credit_factor_fci_sig_b5,file ="M3_credit_factor_fci_sig_b5.RData")
+save(M3_credit_factor_fci_coef_b6,file ="M3_credit_baseline_b6.RData")
 
 
-save(M3_credit_factor_fci_sig_b6,file ="M3_credit_factor_fci_sig_b6.RData")
+save(M1_credit_factor_fci_sig_b1,file ="M1_credit_baseline_sig_b1.RData")
+save(M2_credit_factor_fci_sig_b1,file ="M2_credit_baseline_sig_b1.RData")
+save(M3_credit_factor_fci_sig_b1,file ="M3_credit_baseline_sig_b1.RData")
+
+save(M1_credit_factor_fci_sig_b2,file ="M1_credit_baseline_sig_b2.RData")
+save(M2_credit_factor_fci_sig_b2,file ="M2_credit_baseline_sig_b2.RData")
+save(M3_credit_factor_fci_sig_b2,file ="M3_credit_baseline_sig_b2.RData")
+
+save(M1_credit_factor_fci_sig_b3,file ="M1_credit_baseline_sig_b3.RData")
+save(M2_credit_factor_fci_sig_b3,file ="M2_credit_baseline_sig_b3.RData")
+save(M3_credit_factor_fci_sig_b3,file ="M3_credit_baseline_sig_b3.RData")
+
+save(M1_credit_factor_fci_sig_b4,file ="M1_credit_baseline_sig_b4.RData")
+save(M2_credit_factor_fci_sig_b4,file ="M2_credit_baseline_sig_b4.RData")
+save(M3_credit_factor_fci_sig_b4,file ="M3_credit_baseline_sig_b4.RData")
+
+save(M1_credit_factor_fci_sig_b5,file ="M1_credit_baseline_sig_b5.RData")
+save(M2_credit_factor_fci_sig_b5,file ="M2_credit_baseline_sig_b5.RData")
+save(M3_credit_factor_fci_sig_b5,file ="M3_credit_baseline_sig_b5.RData")
+
+
+save(M3_credit_factor_fci_sig_b6,file ="M3_credit_baseline_sig_b6.RData")
 
 
 
-save(M1_credit_factor_fci_TL,file ="M1_credit_factor_fci_TL.RData")
-save(M2_credit_factor_fci_TL,file ="M2_credit_factor_fci_TL.RData")
-save(M3_credit_factor_fci_TL,file ="M3_credit_factor_fci_TL.RData")
+save(M1_credit_factor_fci_TL,file ="M1_credit_baseline_sig_TL.RData")
+save(M2_credit_factor_fci_TL,file ="M2_credit_baseline_sig_TL.RData")
+save(M3_credit_factor_fci_TL,file ="M3_credit_baseline_sig_TL.RData")
 
 

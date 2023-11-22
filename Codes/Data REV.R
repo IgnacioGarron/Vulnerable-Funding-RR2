@@ -29,8 +29,7 @@ banner("Parte 1:", "Procesamiento de la base de datos", emph = TRUE)
 ########################################################
 # Importa datos de FMI
 rm(list = ls()) # Limpiar environment
-setwd("/Users/ignaciogarronvedia/Documents/GitHub/Vulnerable_Funding") # Direcci?n principal
-data <- read_excel("Data/MonnetPuydata_2020.xls", sheet = "Sheet1")
+data <- read_excel("../Data/MonnetPuydata_2020.xls", sheet = "Sheet1")
 # Genera un vector de tiempo a partir de POSIXct
 data$date   <-as.Date(data$qdate) # fechas forma 1
 data$date_n <- as.yearqtr(paste0(data$year, "-", data$quarter),format = "%Y-%q") # se crea un vector de fechas adicional
@@ -120,54 +119,16 @@ data_wide_all2<-  replace_outliers(data_wide_all )
 plot(data_wide_all[,80],t="l")
 lines(data_wide_all2[,80],t="l",col=2)
 
-dfm_global<-dynfactoR::dfm(data_wide_all2,r=2,p=2)
- 
-
+dfm_global<-dynfactoR::dfm(data_wide_all2[,c(1:43,45)],r=2,p=2)
 
 loadings_global<-as.data.frame(dfm_global$C[,1])
-global_factor<-dfm_global$twostep[,1]
-loadings_fin<-as.data.frame(dfm_global$C[,2])
-#zero restriction for non-financial indicators
-loadings_fin[90:174,]<-0
 
-data_sinNA=data_wide_all
-for (j in 1:length(data_sinNA)) {
-  for (i in 1:240){
-    if (is.na(data_sinNA[i,j])){
-      data_sinNA[i,j]<-0
-  }
-}
-}
 
-fin_factor<-as.matrix(data_sinNA)%*%as.matrix(loadings_fin)
-
-loadings_fin$names<-names(data_wide_all)
-colnames(loadings_fin)<-c("y","names")
-
-loadings_global$names<-names(data_wide_all)
+loadings_global$names<-names(data_wide_all[,c(1:43,45)])
+loadings_global$names<-gsub(".*_","",loadings_global$names)
 colnames(loadings_global)<-c("y","names")
 
-g1<-loadings_fin %>% arrange(desc(y)) %>% 
-  ggplot(data=.,aes(x=names, y=y)) + 
-  geom_point(col="tomato2", size=3) +   # Draw points
-  geom_hline(yintercept = 0)+
-  geom_segment(aes(x=names, 
-                   xend=names, 
-                   y=min(y), 
-                   yend=max(y)), 
-               linetype="dashed", 
-               size=0.1) +   # Draw dashed lines
-  aes(x = fct_inorder(names))+
-  labs(title="", 
-       subtitle="", 
-       caption="",x="",y="") +  
-  theme_classic()+
-  coord_flip()
-
-ggsave(paste0("Figures/FIG1",".png"),
-      ggarrange(g1,ncol = 1), width = 6, height = 18)
-
-g2<-loadings_global %>% arrange(desc(y)) %>% 
+g1<-loadings_global %>% arrange(desc(y)) %>% 
   ggplot(data=.,aes(x=names, y=y)) + 
   geom_point(col="blue", size=3) +   # Draw points
   geom_hline(yintercept = 0)+
@@ -180,69 +141,47 @@ g2<-loadings_global %>% arrange(desc(y)) %>%
   aes(x = fct_inorder(names))+
   labs(title="", 
        subtitle="", 
-       caption="",x="",y="") +  
+       caption="",x="",y="Credit weights") +  
   theme_classic()+
   coord_flip()
 
-ggsave(paste0("Figures/FIG2",".png"),
-       ggarrange(g2,ncol = 1), width = 6, height = 18)
+dfm_global2<-dynfactoR::dfm(data_wide_all2[,46:69],r=2,p=2)
 
-plot(global_factor,t="l")
-lines(fin_factor,t="l",col=2)
+loadings_global<-as.data.frame(dfm_global2$C[,1])
 
 
-#write.csv( data, file = "Data/Data_final.csv")
+loadings_global$names<-names(data_wide_all[,46:69])
+loadings_global$names<-gsub(".*_","",loadings_global$names)
+colnames(loadings_global)<-c("y","names")
 
-banner("Parte 3:", "FACTOR FRED-QD", emph = TRUE)
-############################################################################
-############################################################################
-###                                                                      ###
-###                               PARTE 3:                               ###
-###                            FACTOR FRED-QD                            ###
-###                                                                      ###
-############################################################################
-############################################################################
-
-#Bajar datos desde 1960
-fredqd<-fredqd("Data/FRED-Q.csv",transform = T)
-data_fredqd_all<-data.frame(fredqd[fredqd$date>="1960-01-01" & fredqd$date<="2019-12-01",])
-fredqd_desc<-fredqd_description
-
-unique(fredqd_desc$group)
-
-
-fredqd_des<-fredqd_description %>% 
-      mutate(g_nonfin=case_when(group=="NIPA" & sw_factors==1~1,
-                             group=="Industrial Production"& sw_factors==1~1,
-                             group=="Employment and Unemployment"& sw_factors==1~1,
-                             group=="Housing"& sw_factors==1~1,
-                             group=="Prices"& sw_factors==1~1,
-                             group=="Inventories, Orders, and Sales"& sw_factors==1~1,
-                             group=="Earnings and Productivity"& sw_factors==1~1,
-                             TRUE~0),
-                            variable=fred) %>% 
-      select(variable,g_nonfin)
+g2<-loadings_global %>% arrange(desc(y)) %>% 
+  ggplot(data=.,aes(x=names, y=y)) + 
+  geom_point(col="green", size=3) +   # Draw points
+  geom_hline(yintercept = 0)+
+  geom_segment(aes(x=names, 
+                   xend=names, 
+                   y=min(y), 
+                   yend=max(y)), 
+               linetype="dashed", 
+               size=0.1) +   # Draw dashed lines
+  aes(x = fct_inorder(names))+
+  labs(title="", 
+       subtitle="", 
+       caption="",x="",y="Stocks weights") +  
+  theme_classic()+
+  coord_flip()
 
 
+dfm_global3<-dynfactoR::dfm(data_wide_all2[,c(90:115,117:126)],r=2,p=2)
 
-fredqd_long<-data_fredqd_all %>%  pivot_longer(names_to="variable",values_to="value",cols=-date)
-
-
-data_fredqd_nonfin<-left_join(fredqd_long,fredqd_des,by="variable") %>% filter(g_nonfin==1) %>% arrange(variable) %>% 
- pivot_wider(names_from = "variable",values_from="value")%>% 
-  mutate_all(.funs = funs(scale(.)))
+loadings_global<-as.data.frame(dfm_global3$C[,1])
 
 
-data_fredqd_nonfin<-data_fredqd_nonfin[,3:length(data_fredqd_nonfin)]
-data_fredqd_nonfin<-replace_outliers(data_fredqd_nonfin)
-dfm_fred<-dynfactoR::dfm(data_fredqd_nonfin,r=2,p=2)
+loadings_global$names<-names(data_wide_all[,c(90:115,117:126)])
+loadings_global$names<-gsub(".*_","",loadings_global$names)
+colnames(loadings_global)<-c("y","names")
 
-
-loadings_fred1<-as.data.frame(dfm_fred$C[,1])
-loadings_fred1$names<-colnames(data_fredqd_nonfin)
-colnames(loadings_fred1)<-c("y","names")
-
-g1<-loadings_fred1%>% arrange(desc(y)) %>% 
+g3<-loadings_global %>% arrange(desc(y)) %>% 
   ggplot(data=.,aes(x=names, y=y)) + 
   geom_point(col="black", size=3) +   # Draw points
   geom_hline(yintercept = 0)+
@@ -255,38 +194,20 @@ g1<-loadings_fred1%>% arrange(desc(y)) %>%
   aes(x = fct_inorder(names))+
   labs(title="", 
        subtitle="", 
-       caption="",x="",y="") +  
+       caption="",x="",y="GDP weights") +  
   theme_classic()+
   coord_flip()
 
-loadings_fred1<-as.data.frame(dfm_fred$C[,2])
-loadings_fred1$names<-colnames(data_fredqd_nonfin)
-colnames(loadings_fred1)<-c("y","names")
 
-g2<-loadings_fred1%>% arrange(desc(y)) %>% 
-  ggplot(data=.,aes(x=names, y=y)) + 
-  geom_point(col="red", size=3) +   # Draw points
-  geom_hline(yintercept = 0)+
-  geom_segment(aes(x=names, 
-                   xend=names, 
-                   y=min(y), 
-                   yend=max(y)), 
-               linetype="dashed", 
-               size=0.1) +   # Draw dashed lines
-  aes(x = fct_inorder(names))+
-  labs(title="", 
-       subtitle="", 
-       caption="",x="",y="") +  
-  theme_classic()+
-  coord_flip()
+ggsave(paste0("../Figures/FIG1",".png"),
+       ggarrange(g1,g2,g3,ncol = 3), width = 7, height = 6)
 
-ggsave(paste0("Figures/FIG3",".png"),
-       ggarrange(g1,g2,ncol = 2), width = 12, height = 16)
+plot(ts(dfm_global$pca[,1]),t="l")
+plot(ts(dfm_global2$pca[,1]),t="l",col=2)
+plot(ts(dfm_global3$pca[,1]),t="l",col=3)
+legend(xlim=c(-1,1))
 
-
-
-plot(dfm_fred$twostep[,1],t="l")
-lines(dfm_fred$twostep[,2],t="l")
+lines(fin_factor,t="l",col=2)
 
 
 banner("Parte 4:", "MERGE", emph = TRUE)
@@ -301,8 +222,8 @@ banner("Parte 4:", "MERGE", emph = TRUE)
 
 data_final_wide <- complete_data %>% pivot_wider(names_from = c("variable"),values_from="value",names_sort=TRUE)
 
-factors<-cbind(data_final_long[1:240,1],global_factor,fin_factor,dfm_fred$twostep[,1],dfm_fred$twostep[,2])
-names(factors)<-c("date","global_factor","fin_factor","iv1","iv2")
+factors<-cbind(data_final_long[1:240,1],"credit_f"=dfm_global$pca[,1],"stock_f"=dfm_global2$pca[,1],"gdp_f"=dfm_global3$pca[,1])
+names(factors)<-c("date","credit_f","stock_f","gdp_f")
 
 data_final_wide <-left_join(data_final_wide,factors,by ="date")
 
@@ -312,12 +233,12 @@ data_final<- data_final_wide %>% mutate(q=substr(quarters(date), 2, 2),year=subs
 
 # Introduciendo el NFCI (Adrian et al.,2009) y EPU (Baker et al.,2016)
 
-US <- read_excel("Data/USconditions.xlsx", sheet = "Data")
+US <- read_excel("../Data/USconditions.xlsx", sheet = "Data")
 US$date<-as.Date(US$date,format = "%Y-%q") # datos desde 1971-01-01
 data_final<-left_join(data_final,US,by ="date")
 
 
-write.csv( data_final, file = "Data/Data_final.csv")
+write.csv( data_final, file = "../Data/Data_final.csv")
 
 
 
