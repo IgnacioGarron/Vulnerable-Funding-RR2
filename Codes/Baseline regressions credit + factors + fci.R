@@ -64,94 +64,94 @@ colnames(tabla_raw_pred)<-credit_countries
 rownames(tabla_raw_pred)<-date$date
 
 
-# M1: y_t+h=b1*y_t+b2*nfci_t+b3*fci_t+b4*g_macro+b5*g_fin
-M1_credit_factor_fci_coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
+# M1: y_t+h=b1*y_t+b2*nfci_t+b3*f+b4*g_macro+b5*g_fin
+coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M1_credit_factor_fci_coef_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M1_credit_factor_fci_coef_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M1_credit_factor_fci_coef_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M1_credit_factor_fci_coef_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                                   "h8"=tabla_raw,"h12"=tabla_raw)
-M1_credit_factor_fci_sig_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
+sig_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M1_credit_factor_fci_sig_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M1_credit_factor_fci_sig_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M1_credit_factor_fci_sig_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M1_credit_factor_fci_sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                                  "h8"=tabla_raw,"h12"=tabla_raw)
 
 # M2: y_t+h=b1*y_t+b2*fu_t+b3*fci_t+b4*g_macro+b5*g_fin
-M2_credit_factor_fci_coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
+coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M2_credit_factor_fci_coef_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M2_credit_factor_fci_coef_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M2_credit_factor_fci_coef_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M2_credit_factor_fci_coef_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                                   "h8"=tabla_raw,"h12"=tabla_raw)
 
-M2_credit_factor_fci_sig_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
+sig_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M2_credit_factor_fci_sig_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M2_credit_factor_fci_sig_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M2_credit_factor_fci_sig_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M2_credit_factor_fci_sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                                  "h8"=tabla_raw,"h12"=tabla_raw)
 
 # M3: y_t+h=b1*y_t+b2*nfci_t+b3*fci_t+b5*g_macro+b6*g_fin
-M3_credit_factor_fci_coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
+coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_coef_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_coef_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_coef_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_coef_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_coef_b6=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+coef_b6=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                                   "h8"=tabla_raw,"h12"=tabla_raw)
 
-M3_credit_factor_fci_sig_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
+sig_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_sig_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_sig_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_sig_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                              "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_sig_b6=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+sig_b6=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                                  "h8"=tabla_raw,"h12"=tabla_raw)
 
 #TL predictions
-M1_credit_factor_fci_TL=
+TL=
   list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                          "h8"=tabla_raw,"h12"=tabla_raw)
-M2_credit_factor_fci_TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                          "h8"=tabla_raw,"h12"=tabla_raw)
-M3_credit_factor_fci_TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                          "h8"=tabla_raw,"h12"=tabla_raw)
 
 
 #CaR predictions
-M1_credit_factor_fci_pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
+pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
                              "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
-M2_credit_factor_fci_pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
+pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
                                "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
-M3_credit_factor_fci_pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
+pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
                                "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
 
 
@@ -226,209 +226,209 @@ for (h in h_horizon){
       
       #TL
       pred=(as.matrix(X.train1)%*%as.matrix(M1$beta.hat))
-      M1_credit_factor_fci_pred
-      M1_credit_factor_fci_TL[[paste0("h",h)]][M1_credit_factor_fci_TL[[paste0("h",h)]]$country==country_name,j]=
+      pred
+      TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=
         mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
       
       pred=(as.matrix(X.train2)%*%as.matrix(M2$beta.hat))
-      M2_credit_factor_fci_TL[[paste0("h",h)]][M2_credit_factor_fci_TL[[paste0("h",h)]]$country==country_name,j]=
+      TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=
         mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
       
       pred=(as.matrix(X.train3)%*%as.matrix(M3$beta.hat))
-      M3_credit_factor_fci_TL[[paste0("h",h)]][M3_credit_factor_fci_TL[[paste0("h",h)]]$country==country_name,j]=
+      TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=
         mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
       
       if (h!=0){ # no hay h=0 para rezago
         
         #b1
-        M1_credit_factor_fci_coef_b1[[paste0("h",h)]][M1_credit_factor_fci_coef_b1[[paste0("h",h)]]$country==country_name,j]=
+        coef_b1[[paste0("h",h)]][coef_b1[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[2]
         
-        M1_credit_factor_fci_coef_b2[[paste0("h",h)]][M1_credit_factor_fci_coef_b2[[paste0("h",h)]]$country==country_name,j]=
+        coef_b2[[paste0("h",h)]][coef_b2[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[3]
         
-        M1_credit_factor_fci_coef_b3[[paste0("h",h)]][M1_credit_factor_fci_coef_b3[[paste0("h",h)]]$country==country_name,j]=
+        coef_b3[[paste0("h",h)]][coef_b3[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[4]
         
-        M1_credit_factor_fci_coef_b4[[paste0("h",h)]][M1_credit_factor_fci_coef_b4[[paste0("h",h)]]$country==country_name,j]=
+        coef_b4[[paste0("h",h)]][coef_b4[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[5]
         
-        M1_credit_factor_fci_coef_b5[[paste0("h",h)]][M1_credit_factor_fci_coef_b5[[paste0("h",h)]]$country==country_name,j]=
+        coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[6]
         
-        M2_credit_factor_fci_coef_b1[[paste0("h",h)]][M2_credit_factor_fci_coef_b1[[paste0("h",h)]]$country==country_name,j]=
+        coef_b1[[paste0("h",h)]][coef_b1[[paste0("h",h)]]$country==country_name,j]=
           M2$beta.hat[2]
         
-        M2_credit_factor_fci_coef_b2[[paste0("h",h)]][M2_credit_factor_fci_coef_b2[[paste0("h",h)]]$country==country_name,j]=
+        coef_b2[[paste0("h",h)]][coef_b2[[paste0("h",h)]]$country==country_name,j]=
           M2$beta.hat[3]
         
-        M2_credit_factor_fci_coef_b3[[paste0("h",h)]][M2_credit_factor_fci_coef_b3[[paste0("h",h)]]$country==country_name,j]=
+        coef_b3[[paste0("h",h)]][coef_b3[[paste0("h",h)]]$country==country_name,j]=
           M2$beta.hat[4]
         
-        M2_credit_factor_fci_coef_b4[[paste0("h",h)]][M2_credit_factor_fci_coef_b4[[paste0("h",h)]]$country==country_name,j]=
+        coef_b4[[paste0("h",h)]][coef_b4[[paste0("h",h)]]$country==country_name,j]=
           M2$beta.hat[5]
         
-        M2_credit_factor_fci_coef_b5[[paste0("h",h)]][M2_credit_factor_fci_coef_b5[[paste0("h",h)]]$country==country_name,j]=
+        coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
           M2$beta.hat[6]
         
         
-        M3_credit_factor_fci_coef_b1[[paste0("h",h)]][M3_credit_factor_fci_coef_b1[[paste0("h",h)]]$country==country_name,j]=
+        coef_b1[[paste0("h",h)]][coef_b1[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[2]
         
-        M3_credit_factor_fci_coef_b2[[paste0("h",h)]][M3_credit_factor_fci_coef_b2[[paste0("h",h)]]$country==country_name,j]=
+        coef_b2[[paste0("h",h)]][coef_b2[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[3]
         
-        M3_credit_factor_fci_coef_b3[[paste0("h",h)]][M3_credit_factor_fci_coef_b3[[paste0("h",h)]]$country==country_name,j]=
+        coef_b3[[paste0("h",h)]][coef_b3[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[4]
         
-        M3_credit_factor_fci_coef_b4[[paste0("h",h)]][M3_credit_factor_fci_coef_b4[[paste0("h",h)]]$country==country_name,j]=
+        coef_b4[[paste0("h",h)]][coef_b4[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[5]
         
-        M3_credit_factor_fci_coef_b5[[paste0("h",h)]][M3_credit_factor_fci_coef_b5[[paste0("h",h)]]$country==country_name,j]=
+        coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[6]
         
-        M3_credit_factor_fci_coef_b6[[paste0("h",h)]][M3_credit_factor_fci_coef_b6[[paste0("h",h)]]$country==country_name,j]=
+        coef_b6[[paste0("h",h)]][coef_b6[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[7]
         
         # sig 
         
-        M1_credit_factor_fci_sig_b1[[paste0("h",h)]][M1_credit_factor_fci_sig_b1[[paste0("h",h)]]$country==country_name,j]=
+        sig_b1[[paste0("h",h)]][sig_b1[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[2,1] & 0 < M1$SETBB.confint[2,2], 0, 1)
         
         
-        M1_credit_factor_fci_sig_b2[[paste0("h",h)]][M1_credit_factor_fci_sig_b2[[paste0("h",h)]]$country==country_name,j]=
+        sig_b2[[paste0("h",h)]][sig_b2[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[3,1] & 0 < M1$SETBB.confint[3,2], 0, 1)
         
-        M1_credit_factor_fci_sig_b3[[paste0("h",h)]][M1_credit_factor_fci_sig_b3[[paste0("h",h)]]$country==country_name,j]=
+        sig_b3[[paste0("h",h)]][sig_b3[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[4,1] & 0 < M1$SETBB.confint[4,2], 0, 1)
         
-        M1_credit_factor_fci_sig_b4[[paste0("h",h)]][M1_credit_factor_fci_sig_b4[[paste0("h",h)]]$country==country_name,j]=
+        sig_b4[[paste0("h",h)]][sig_b4[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[5,1] & 0 < M1$SETBB.confint[5,2], 0, 1)
         
-        M1_credit_factor_fci_sig_b5[[paste0("h",h)]][M1_credit_factor_fci_sig_b5[[paste0("h",h)]]$country==country_name,j]=
+        sig_b5[[paste0("h",h)]][sig_b5[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[6,1] & 0 < M1$SETBB.confint[6,2], 0, 1)
         
         
-        M2_credit_factor_fci_sig_b1[[paste0("h",h)]][M2_credit_factor_fci_sig_b1[[paste0("h",h)]]$country==country_name,j]=
+        sig_b1[[paste0("h",h)]][sig_b1[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M2$SETBB.confint[2,1] & 0 < M2$SETBB.confint[2,2], 0, 1)
         
-        M2_credit_factor_fci_sig_b2[[paste0("h",h)]][M2_credit_factor_fci_sig_b2[[paste0("h",h)]]$country==country_name,j]=
+        sig_b2[[paste0("h",h)]][sig_b2[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M2$SETBB.confint[3,1] & 0 < M2$SETBB.confint[3,2], 0, 1)
         
-        M2_credit_factor_fci_sig_b3[[paste0("h",h)]][M2_credit_factor_fci_sig_b3[[paste0("h",h)]]$country==country_name,j]=
+        sig_b3[[paste0("h",h)]][sig_b3[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M2$SETBB.confint[4,1] & 0 < M2$SETBB.confint[4,2], 0, 1)
         
-        M2_credit_factor_fci_sig_b4[[paste0("h",h)]][M2_credit_factor_fci_sig_b4[[paste0("h",h)]]$country==country_name,j]=
+        sig_b4[[paste0("h",h)]][sig_b4[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M2$SETBB.confint[5,1] & 0 < M2$SETBB.confint[5,2], 0, 1)
         
-        M2_credit_factor_fci_sig_b5[[paste0("h",h)]][M2_credit_factor_fci_sig_b5[[paste0("h",h)]]$country==country_name,j]=
+        sig_b5[[paste0("h",h)]][sig_b5[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M2$SETBB.confint[6,1] & 0 < M2$SETBB.confint[6,2], 0, 1)
         
         
-        M3_credit_factor_fci_sig_b1[[paste0("h",h)]][M3_credit_factor_fci_sig_b1[[paste0("h",h)]]$country==country_name,j]=
+        sig_b1[[paste0("h",h)]][sig_b1[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[2,1] & 0 < M3$SETBB.confint[2,2], 0, 1)
         
-        M3_credit_factor_fci_sig_b2[[paste0("h",h)]][M3_credit_factor_fci_sig_b2[[paste0("h",h)]]$country==country_name,j]=
+        sig_b2[[paste0("h",h)]][sig_b2[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[3,1] & 0 < M3$SETBB.confint[3,2], 0, 1)
         
-        M3_credit_factor_fci_sig_b3[[paste0("h",h)]][M3_credit_factor_fci_sig_b3[[paste0("h",h)]]$country==country_name,j]=
+        sig_b3[[paste0("h",h)]][sig_b3[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[4,1] & 0 < M3$SETBB.confint[4,2], 0, 1)
         
-        M3_credit_factor_fci_sig_b4[[paste0("h",h)]][M3_credit_factor_fci_sig_b4[[paste0("h",h)]]$country==country_name,j]=
+        sig_b4[[paste0("h",h)]][sig_b4[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[5,1] & 0 < M3$SETBB.confint[5,2], 0, 1)
         
-        M3_credit_factor_fci_sig_b5[[paste0("h",h)]][M3_credit_factor_fci_sig_b5[[paste0("h",h)]]$country==country_name,j]=
+        sig_b5[[paste0("h",h)]][sig_b5[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[6,1] & 0 < M3$SETBB.confint[6,2], 0, 1)
         
-        M3_credit_factor_fci_sig_b6[[paste0("h",h)]][M3_credit_factor_fci_sig_b6[[paste0("h",h)]]$country==country_name,j]=
+        sig_b6[[paste0("h",h)]][sig_b6[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[7,1] & 0 < M3$SETBB.confint[7,2], 0, 1)
         
         
       } else {
         
         #b2
-        M1_credit_factor_fci_coef_b2[[paste0("h",h)]][M1_credit_factor_fci_coef_b2[[paste0("h",h)]]$country==country_name,j]=
+        coef_b2[[paste0("h",h)]][coef_b2[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[2]
         
-        M1_credit_factor_fci_coef_b3[[paste0("h",h)]][M1_credit_factor_fci_coef_b3[[paste0("h",h)]]$country==country_name,j]=
+        coef_b3[[paste0("h",h)]][coef_b3[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[3]
         
-        M1_credit_factor_fci_coef_b4[[paste0("h",h)]][M1_credit_factor_fci_coef_b4[[paste0("h",h)]]$country==country_name,j]=
+        coef_b4[[paste0("h",h)]][coef_b4[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[4]
         
-        M1_credit_factor_fci_coef_b5[[paste0("h",h)]][M1_credit_factor_fci_coef_b5[[paste0("h",h)]]$country==country_name,j]=
+        coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[5]
         
         
-        M2_credit_factor_fci_coef_b2[[paste0("h",h)]][M2_credit_factor_fci_coef_b2[[paste0("h",h)]]$country==country_name,j]=
+        coef_b2[[paste0("h",h)]][coef_b2[[paste0("h",h)]]$country==country_name,j]=
           M2$beta.hat[2]
         
-        M2_credit_factor_fci_coef_b3[[paste0("h",h)]][M2_credit_factor_fci_coef_b3[[paste0("h",h)]]$country==country_name,j]=
+        coef_b3[[paste0("h",h)]][coef_b3[[paste0("h",h)]]$country==country_name,j]=
           M2$beta.hat[3]
         
-        M2_credit_factor_fci_coef_b4[[paste0("h",h)]][M2_credit_factor_fci_coef_b4[[paste0("h",h)]]$country==country_name,j]=
+        coef_b4[[paste0("h",h)]][coef_b4[[paste0("h",h)]]$country==country_name,j]=
           M2$beta.hat[4]
         
-        M2_credit_factor_fci_coef_b5[[paste0("h",h)]][M2_credit_factor_fci_coef_b5[[paste0("h",h)]]$country==country_name,j]=
+        coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
           M2$beta.hat[5]
         
         
-        M3_credit_factor_fci_coef_b2[[paste0("h",h)]][M3_credit_factor_fci_coef_b2[[paste0("h",h)]]$country==country_name,j]=
+        coef_b2[[paste0("h",h)]][coef_b2[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[2]
         
-        M3_credit_factor_fci_coef_b3[[paste0("h",h)]][M3_credit_factor_fci_coef_b3[[paste0("h",h)]]$country==country_name,j]=
+        coef_b3[[paste0("h",h)]][coef_b3[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[3]
         
-        M3_credit_factor_fci_coef_b4[[paste0("h",h)]][M3_credit_factor_fci_coef_b4[[paste0("h",h)]]$country==country_name,j]=
+        coef_b4[[paste0("h",h)]][coef_b4[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[4]
         
-        M3_credit_factor_fci_coef_b5[[paste0("h",h)]][M3_credit_factor_fci_coef_b5[[paste0("h",h)]]$country==country_name,j]=
+        coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[5]
         
-        M3_credit_factor_fci_coef_b6[[paste0("h",h)]][M3_credit_factor_fci_coef_b6[[paste0("h",h)]]$country==country_name,j]=
+        coef_b6[[paste0("h",h)]][coef_b6[[paste0("h",h)]]$country==country_name,j]=
           M3$beta.hat[6]
         
         
-        M1_credit_factor_fci_sig_b2[[paste0("h",h)]][ M1_credit_factor_fci_sig_b2[[paste0("h",h)]]$country==country_name,j]=
+        sig_b2[[paste0("h",h)]][ sig_b2[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[2,1] & 0 < M1$SETBB.confint[2,2], 0, 1)
         
-        M1_credit_factor_fci_sig_b3[[paste0("h",h)]][ M1_credit_factor_fci_sig_b3[[paste0("h",h)]]$country==country_name,j]=
+        sig_b3[[paste0("h",h)]][ sig_b3[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[3,1] & 0 < M1$SETBB.confint[3,2], 0, 1)
         
-        M1_credit_factor_fci_sig_b4[[paste0("h",h)]][ M1_credit_factor_fci_sig_b4[[paste0("h",h)]]$country==country_name,j]=
+        sig_b4[[paste0("h",h)]][ sig_b4[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[4,1] & 0 < M1$SETBB.confint[4,2], 0, 1)
         
-        M1_credit_factor_fci_sig_b5[[paste0("h",h)]][ M1_credit_factor_fci_sig_b5[[paste0("h",h)]]$country==country_name,j]=
+        sig_b5[[paste0("h",h)]][ sig_b5[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[5,1] & 0 < M1$SETBB.confint[5,2], 0, 1)
         
         
         
-        M2_credit_factor_fci_sig_b2[[paste0("h",h)]][M2_credit_factor_fci_sig_b2[[paste0("h",h)]]$country==country_name,j]=
+        sig_b2[[paste0("h",h)]][sig_b2[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M2$SETBB.confint[2,1] & 0 < M2$SETBB.confint[2,2], 0, 1)
         
-        M2_credit_factor_fci_sig_b3[[paste0("h",h)]][M2_credit_factor_fci_sig_b3[[paste0("h",h)]]$country==country_name,j]=
+        sig_b3[[paste0("h",h)]][sig_b3[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M2$SETBB.confint[3,1] & 0 < M2$SETBB.confint[3,2], 0, 1)
         
-        M2_credit_factor_fci_sig_b4[[paste0("h",h)]][M2_credit_factor_fci_sig_b4[[paste0("h",h)]]$country==country_name,j]=
+        sig_b4[[paste0("h",h)]][sig_b4[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M2$SETBB.confint[4,1] & 0 < M2$SETBB.confint[4,2], 0, 1)
         
-        M2_credit_factor_fci_sig_b5[[paste0("h",h)]][M2_credit_factor_fci_sig_b5[[paste0("h",h)]]$country==country_name,j]=
+        sig_b5[[paste0("h",h)]][sig_b5[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M2$SETBB.confint[5,1] & 0 < M2$SETBB.confint[5,2], 0, 1)
         
         
-        M3_credit_factor_fci_sig_b2[[paste0("h",h)]][ M3_credit_factor_fci_sig_b2[[paste0("h",h)]]$country==country_name,j]=
+        sig_b2[[paste0("h",h)]][ sig_b2[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[2,1] & 0 < M3$SETBB.confint[2,2], 0, 1)
         
-        M3_credit_factor_fci_sig_b3[[paste0("h",h)]][M3_credit_factor_fci_sig_b3[[paste0("h",h)]]$country==country_name,j]=
+        sig_b3[[paste0("h",h)]][sig_b3[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[3,1] & 0 < M3$SETBB.confint[3,2], 0, 1)
         
-        M3_credit_factor_fci_sig_b4[[paste0("h",h)]][M3_credit_factor_fci_sig_b4[[paste0("h",h)]]$country==country_name,j]=
+        sig_b4[[paste0("h",h)]][sig_b4[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[4,1] & 0 < M3$SETBB.confint[4,2], 0, 1)
         
-        M3_credit_factor_fci_sig_b5[[paste0("h",h)]][M3_credit_factor_fci_sig_b5[[paste0("h",h)]]$country==country_name,j]=
+        sig_b5[[paste0("h",h)]][sig_b5[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[5,1] & 0 < M3$SETBB.confint[5,2], 0, 1)
         
-        M3_credit_factor_fci_sig_b6[[paste0("h",h)]][M3_credit_factor_fci_sig_b6[[paste0("h",h)]]$country==country_name,j]=
+        sig_b6[[paste0("h",h)]][sig_b6[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M3$SETBB.confint[6,1] & 0 < M3$SETBB.confint[6,2], 0, 1)
         
       }
@@ -439,56 +439,56 @@ for (h in h_horizon){
 
 
 
-save(M1_credit_factor_fci_coef_b1,file ="M1_credit_baseline_coef_b1.RData")
-save(M2_credit_factor_fci_coef_b1,file ="M2_credit_baseline_coef_b1.RData")
-save(M3_credit_factor_fci_coef_b1,file ="M3_credit_baseline_coef_b1.RData")
+save(coef_b1,file ="M1_credit_baseline_coef_b1.RData")
+save(coef_b1,file ="M2_credit_baseline_coef_b1.RData")
+save(coef_b1,file ="M3_credit_baseline_coef_b1.RData")
 
-save(M1_credit_factor_fci_coef_b2,file ="M1_credit_baseline_coef_b2.RData")
-save(M2_credit_factor_fci_coef_b2,file ="M2_credit_baseline_coef_b2.RData")
-save(M3_credit_factor_fci_coef_b2,file ="M3_credit_baseline_coef_b2.RData")
+save(coef_b2,file ="M1_credit_baseline_coef_b2.RData")
+save(coef_b2,file ="M2_credit_baseline_coef_b2.RData")
+save(coef_b2,file ="M3_credit_baseline_coef_b2.RData")
 
-save(M1_credit_factor_fci_coef_b3,file ="M1_credit_baseline_b3.RData")
-save(M2_credit_factor_fci_coef_b3,file ="M2_credit_baseline_b3.RData")
-save(M3_credit_factor_fci_coef_b3,file ="M3_credit_baseline_b3.RData")
+save(coef_b3,file ="M1_credit_baseline_b3.RData")
+save(coef_b3,file ="M2_credit_baseline_b3.RData")
+save(coef_b3,file ="M3_credit_baseline_b3.RData")
 
-save(M1_credit_factor_fci_coef_b4,file ="M1_credit_baseline_b4.RData")
-save(M2_credit_factor_fci_coef_b4,file ="M2_credit_baseline_b4.RData")
-save(M3_credit_factor_fci_coef_b4,file ="M3_credit_baseline_b4.RData")
+save(coef_b4,file ="M1_credit_baseline_b4.RData")
+save(coef_b4,file ="M2_credit_baseline_b4.RData")
+save(coef_b4,file ="M3_credit_baseline_b4.RData")
 
-save(M1_credit_factor_fci_coef_b5,file ="M1_credit_baseline_b5.RData")
-save(M2_credit_factor_fci_coef_b5,file ="M2_credit_baseline_b5.RData")
-save(M3_credit_factor_fci_coef_b5,file ="M3_credit_baseline_b5.RData")
+save(coef_b5,file ="M1_credit_baseline_b5.RData")
+save(coef_b5,file ="M2_credit_baseline_b5.RData")
+save(coef_b5,file ="M3_credit_baseline_b5.RData")
 
-save(M3_credit_factor_fci_coef_b6,file ="M3_credit_baseline_b6.RData")
-
-
-save(M1_credit_factor_fci_sig_b1,file ="M1_credit_baseline_sig_b1.RData")
-save(M2_credit_factor_fci_sig_b1,file ="M2_credit_baseline_sig_b1.RData")
-save(M3_credit_factor_fci_sig_b1,file ="M3_credit_baseline_sig_b1.RData")
-
-save(M1_credit_factor_fci_sig_b2,file ="M1_credit_baseline_sig_b2.RData")
-save(M2_credit_factor_fci_sig_b2,file ="M2_credit_baseline_sig_b2.RData")
-save(M3_credit_factor_fci_sig_b2,file ="M3_credit_baseline_sig_b2.RData")
-
-save(M1_credit_factor_fci_sig_b3,file ="M1_credit_baseline_sig_b3.RData")
-save(M2_credit_factor_fci_sig_b3,file ="M2_credit_baseline_sig_b3.RData")
-save(M3_credit_factor_fci_sig_b3,file ="M3_credit_baseline_sig_b3.RData")
-
-save(M1_credit_factor_fci_sig_b4,file ="M1_credit_baseline_sig_b4.RData")
-save(M2_credit_factor_fci_sig_b4,file ="M2_credit_baseline_sig_b4.RData")
-save(M3_credit_factor_fci_sig_b4,file ="M3_credit_baseline_sig_b4.RData")
-
-save(M1_credit_factor_fci_sig_b5,file ="M1_credit_baseline_sig_b5.RData")
-save(M2_credit_factor_fci_sig_b5,file ="M2_credit_baseline_sig_b5.RData")
-save(M3_credit_factor_fci_sig_b5,file ="M3_credit_baseline_sig_b5.RData")
+save(coef_b6,file ="M3_credit_baseline_b6.RData")
 
 
-save(M3_credit_factor_fci_sig_b6,file ="M3_credit_baseline_sig_b6.RData")
+save(sig_b1,file ="M1_credit_baseline_sig_b1.RData")
+save(sig_b1,file ="M2_credit_baseline_sig_b1.RData")
+save(sig_b1,file ="M3_credit_baseline_sig_b1.RData")
+
+save(sig_b2,file ="M1_credit_baseline_sig_b2.RData")
+save(sig_b2,file ="M2_credit_baseline_sig_b2.RData")
+save(sig_b2,file ="M3_credit_baseline_sig_b2.RData")
+
+save(sig_b3,file ="M1_credit_baseline_sig_b3.RData")
+save(sig_b3,file ="M2_credit_baseline_sig_b3.RData")
+save(sig_b3,file ="M3_credit_baseline_sig_b3.RData")
+
+save(sig_b4,file ="M1_credit_baseline_sig_b4.RData")
+save(sig_b4,file ="M2_credit_baseline_sig_b4.RData")
+save(sig_b4,file ="M3_credit_baseline_sig_b4.RData")
+
+save(sig_b5,file ="M1_credit_baseline_sig_b5.RData")
+save(sig_b5,file ="M2_credit_baseline_sig_b5.RData")
+save(sig_b5,file ="M3_credit_baseline_sig_b5.RData")
+
+
+save(sig_b6,file ="M3_credit_baseline_sig_b6.RData")
 
 
 
-save(M1_credit_factor_fci_TL,file ="M1_credit_baseline_sig_TL.RData")
-save(M2_credit_factor_fci_TL,file ="M2_credit_baseline_sig_TL.RData")
-save(M3_credit_factor_fci_TL,file ="M3_credit_baseline_sig_TL.RData")
+save(TL,file ="M1_credit_baseline_sig_TL.RData")
+save(TL,file ="M2_credit_baseline_sig_TL.RData")
+save(TL,file ="M3_credit_baseline_sig_TL.RData")
 
 
