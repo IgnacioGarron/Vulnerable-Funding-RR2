@@ -95,8 +95,11 @@ sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
 
 
 #TL predictions
-TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+TL1=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
         "h8"=tabla_raw,"h12"=tabla_raw)
+
+TL2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
+         "h8"=tabla_raw,"h12"=tabla_raw)
 
 
 #CaR predictions
@@ -122,8 +125,6 @@ banner("Parte 2:", "Quantile regressions for credit", emph = TRUE)
 
 # horizon
 h_horizon<-c(0,1,4,8,12) # Acá empieza loop para h
-
-h_horizon<-0
 
 
 for (h in h_horizon){
@@ -180,7 +181,7 @@ for (h in h_horizon){
       
       #TL
       pred=(as.matrix(X.train1)%*%as.matrix(M1$beta.hat))
-      TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
+      TL1[[paste0("h",h)]][TL1[[paste0("h",h)]]$country==country_name,j]=mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
       
       diff_length=length(Pred_list[[paste0("h",h)]][,country_name])-length(as.matrix(X.train1)%*%as.matrix(M1$beta.hat))
       if(tau==0.05 & diff_length==0){
@@ -189,7 +190,7 @@ for (h in h_horizon){
         Pred_list[[paste0("h",h)]][,country_name]=c(as.matrix(X.train1)%*%as.matrix(M1$beta.hat),rep(NA,diff_length))}
       
       pred=(as.matrix(X.train2)%*%as.matrix(M2$beta.hat))
-      TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
+      TL2[[paste0("h",h)]][TL2[[paste0("h",h)]]$country==country_name,j]=mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
       
       if (h!=0){ # no hay h=0 para rezago
         
@@ -267,9 +268,8 @@ save(sig_b4,file ="../Data/M1_credit_baseline_sig_b4.RData")
 save(sig_b5,file ="../Data/M1_credit_baseline_sig_b5.RData")
 
 
-save(TL,file ="../Data/M1_credit_baseline_TL.RData")
-save(TL,file ="../Data/M2_credit_baseline_TL.RData")
-
+save(TL1,file ="../Data/M1_credit_baseline_TL.RData")
+save(TL2,file ="../Data/M2_credit_baseline_TL.RData")
 save(Pred_list,file ="../Data/M2_credit_baseline_Pred.RData")
 
 
