@@ -63,7 +63,7 @@ tabla_raw<-data.frame(matrix(nrow=length(credit_countries),ncol=6))
 tabla_raw[,1]<-credit_countries
 colnames(tabla_raw)<-c("country","q=0.05","q=0.25","q=0.50","q=0.75","q=0.95")
 
-tabla_raw_pred<-data.frame(matrix(ncol=length(credit_countries),nrow=176)) #length fci 1973-1
+tabla_raw_pred<-data.frame(matrix(ncol=length(credit_countries),nrow=188)) #length fci 1973-1
 colnames(tabla_raw_pred)<-credit_countries
 #rownames(tabla_raw_pred)<-date$date
 
@@ -116,14 +116,18 @@ banner("Parte 2:", "Quantile regressions for credit", emph = TRUE)
 
 # Test
 
-h<-4
-q<-0.05
-country_name="Bolivia"
+# h<-4
+# tau<-0.05
+# country_name="Bolivia"
 
 # horizon
 h_horizon<-c(0,1,4,8,12) # Acá empieza loop para h
 
+h_horizon<-0
+
+
 for (h in h_horizon){
+  start.time <- Sys.time()
   
   data_reg <- data %>% group_by(country) %>%
     mutate(credit=log(credit/lag(credit)),
@@ -136,10 +140,9 @@ for (h in h_horizon){
                 inf_z=inf,
                 yield_z=yield,
                 NFCI_z=NFCI,
-                Real_z=VOL_GROWTH,
-                #fci_z=fci, 
+                Real_z=VOL_GROWTH,                #fci_z=fci, 
                 credit_f_z=credit_f, # credit factor
-                f_global_z=,
+                f_global_z=VOL_WPI,
                 f_fin_z=SV,
                 USUN_z=USUN) %>% 
     mutate(stock_h=lead(stock_z,h),
@@ -151,15 +154,15 @@ for (h in h_horizon){
     
     data_model<-data_reg %>% 
       group_by(country) %>% 
-      filter(complete.cases(credit_h,credit_z,NFCI_z),country==country_name) 
+      filter(complete.cases(credit_h,credit_z,NFCI_z,f_global_z),country==country_name) 
     Y.train=as.matrix(data_model[,"credit_h"])
     
     if (h==0){
-      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","REAL_z","credit_f_z","f_global_z")]))
-      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("REAL_z","credit_f_z","f_global_z")]))
+      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","Real_z","credit_f_z","f_global_z")]))
+      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("Real_z","credit_f_z","f_global_z")]))
     } else {
-      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","REAL_z","credit_f_z","f_global_z")]))
-      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","REAL_z","credit_f_z","f_global_z")]))
+      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","Real_z","credit_f_z","f_global_z")]))
+      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","Real_z","credit_f_z","f_global_z")]))
     }
     
     tau_q =c(0.05,0.25,0.50,0.75,0.95) # aca empieza loop quantile
@@ -170,22 +173,23 @@ for (h in h_horizon){
       } else if(tau==0.50){ j=4
       } else if(tau==0.75){ j=5
       } else if(tau==0.95){ j=6}
-      
-      
+
+    
       M1<- QregBB(Y.train,X.train1,tau=tau,l=4,B=500,h=NULL,alpha=0.1)
       M2<- QregBB(Y.train,X.train2,tau=tau,l=4,B=500,h=NULL,alpha=0.1)
       
       #TL
       pred=(as.matrix(X.train1)%*%as.matrix(M1$beta.hat))
-      TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=
-        mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
+      TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
       
-      if (tau==0.02) Pred_list[[paste0("h",h)]]$country==country_name
+      diff_length=length(Pred_list[[paste0("h",h)]][,country_name])-length(as.matrix(X.train1)%*%as.matrix(M1$beta.hat))
+      if(tau==0.05 & diff_length==0){
+        Pred_list[[paste0("h",h)]][,country_name]=(as.matrix(X.train1)%*%as.matrix(M1$beta.hat))
+      } else if (tau==0.05 & diff_length!=0) {
+        Pred_list[[paste0("h",h)]][,country_name]=c(as.matrix(X.train1)%*%as.matrix(M1$beta.hat),rep(NA,diff_length))}
       
       pred=(as.matrix(X.train2)%*%as.matrix(M2$beta.hat))
-      TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=
-        mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
-      
+      TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
       
       if (h!=0){ # no hay h=0 para rezago
         
@@ -240,66 +244,32 @@ for (h in h_horizon){
         coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[5]
         
-        
-   
       }
     }
   }
+  end.time <- Sys.time()
+  time.taken <- end.time - start.time
+  print(time.taken)
 }
 
 
+save(coef_b1,file ="../Data/M1_credit_baseline_coef_b1.RData")
+save(coef_b2,file ="../Data/M1_credit_baseline_coef_b2.RData")
+save(coef_b3,file ="../Data/M1_credit_baseline_b3.RData")
+save(coef_b4,file ="../Data/M1_credit_baseline_b4.RData")
+save(coef_b5,file ="../Data/M1_credit_baseline_b5.RData")
 
 
-save(coef_b1,file ="M1_credit_baseline_coef_b1.RData")
-save(coef_b1,file ="M2_credit_baseline_coef_b1.RData")
-save(coef_b1,file ="M3_credit_baseline_coef_b1.RData")
-
-save(coef_b2,file ="M1_credit_baseline_coef_b2.RData")
-save(coef_b2,file ="M2_credit_baseline_coef_b2.RData")
-save(coef_b2,file ="M3_credit_baseline_coef_b2.RData")
-
-save(coef_b3,file ="M1_credit_baseline_b3.RData")
-save(coef_b3,file ="M2_credit_baseline_b3.RData")
-save(coef_b3,file ="M3_credit_baseline_b3.RData")
-
-save(coef_b4,file ="M1_credit_baseline_b4.RData")
-save(coef_b4,file ="M2_credit_baseline_b4.RData")
-save(coef_b4,file ="M3_credit_baseline_b4.RData")
-
-save(coef_b5,file ="M1_credit_baseline_b5.RData")
-save(coef_b5,file ="M2_credit_baseline_b5.RData")
-save(coef_b5,file ="M3_credit_baseline_b5.RData")
-
-save(coef_b6,file ="M3_credit_baseline_b6.RData")
+save(sig_b1,file ="../Data/M1_credit_baseline_sig_b1.RData")
+save(sig_b2,file ="../Data/M1_credit_baseline_sig_b2.RData")
+save(sig_b3,file ="../Data/M1_credit_baseline_sig_b3.RData")
+save(sig_b4,file ="../Data/M1_credit_baseline_sig_b4.RData")
+save(sig_b5,file ="../Data/M1_credit_baseline_sig_b5.RData")
 
 
-save(sig_b1,file ="M1_credit_baseline_sig_b1.RData")
-save(sig_b1,file ="M2_credit_baseline_sig_b1.RData")
-save(sig_b1,file ="M3_credit_baseline_sig_b1.RData")
+save(TL,file ="../Data/M1_credit_baseline_TL.RData")
+save(TL,file ="../Data/M2_credit_baseline_TL.RData")
 
-save(sig_b2,file ="M1_credit_baseline_sig_b2.RData")
-save(sig_b2,file ="M2_credit_baseline_sig_b2.RData")
-save(sig_b2,file ="M3_credit_baseline_sig_b2.RData")
-
-save(sig_b3,file ="M1_credit_baseline_sig_b3.RData")
-save(sig_b3,file ="M2_credit_baseline_sig_b3.RData")
-save(sig_b3,file ="M3_credit_baseline_sig_b3.RData")
-
-save(sig_b4,file ="M1_credit_baseline_sig_b4.RData")
-save(sig_b4,file ="M2_credit_baseline_sig_b4.RData")
-save(sig_b4,file ="M3_credit_baseline_sig_b4.RData")
-
-save(sig_b5,file ="M1_credit_baseline_sig_b5.RData")
-save(sig_b5,file ="M2_credit_baseline_sig_b5.RData")
-save(sig_b5,file ="M3_credit_baseline_sig_b5.RData")
-
-
-save(sig_b6,file ="M3_credit_baseline_sig_b6.RData")
-
-
-
-save(TL,file ="M1_credit_baseline_sig_TL.RData")
-save(TL,file ="M2_credit_baseline_sig_TL.RData")
-save(TL,file ="M3_credit_baseline_sig_TL.RData")
+save(Pred_list,file ="../Data/M2_credit_baseline_Pred.RData")
 
 
