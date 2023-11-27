@@ -64,7 +64,7 @@ colnames(tabla_raw_pred)<-credit_countries
 rownames(tabla_raw_pred)<-date$date
 
 
-# M1: y_t+h=b1*y_t+b2*nfci_t+b3*f+b4*g_macro+b5*g_fin
+# M1: y_t+h=b1*y_t+b2*nfciUS_t+b3*RealUS_t+b4*cross_factor+b5*Worldvol
 coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
                               "h8"=tabla_raw,"h12"=tabla_raw)
 coef_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
@@ -86,62 +86,11 @@ sig_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
 sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                                  "h8"=tabla_raw,"h12"=tabla_raw)
 
-# M2: y_t+h=b1*y_t+b2*fu_t+b3*fci_t+b4*g_macro+b5*g_fin
-coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
-                              "h8"=tabla_raw,"h12"=tabla_raw)
-coef_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                              "h8"=tabla_raw,"h12"=tabla_raw)
-coef_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                              "h8"=tabla_raw,"h12"=tabla_raw)
-coef_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                              "h8"=tabla_raw,"h12"=tabla_raw)
-coef_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                                  "h8"=tabla_raw,"h12"=tabla_raw)
+# M2: y_t+h=b1*y_t+b3*RealUS_t+b4*cross_factor+b5*Worldvol (SIN NFCI)
 
-sig_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
-                             "h8"=tabla_raw,"h12"=tabla_raw)
-sig_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                             "h8"=tabla_raw,"h12"=tabla_raw)
-sig_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                             "h8"=tabla_raw,"h12"=tabla_raw)
-sig_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                             "h8"=tabla_raw,"h12"=tabla_raw)
-sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                                 "h8"=tabla_raw,"h12"=tabla_raw)
 
-# M3: y_t+h=b1*y_t+b2*nfci_t+b3*fci_t+b5*g_macro+b6*g_fin
-coef_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
-                              "h8"=tabla_raw,"h12"=tabla_raw)
-coef_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                              "h8"=tabla_raw,"h12"=tabla_raw)
-coef_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                              "h8"=tabla_raw,"h12"=tabla_raw)
-coef_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                              "h8"=tabla_raw,"h12"=tabla_raw)
-coef_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                              "h8"=tabla_raw,"h12"=tabla_raw)
-coef_b6=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                                  "h8"=tabla_raw,"h12"=tabla_raw)
-
-sig_b1=list("h1"=tabla_raw,"h4"=tabla_raw,
-                             "h8"=tabla_raw,"h12"=tabla_raw)
-sig_b2=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                             "h8"=tabla_raw,"h12"=tabla_raw)
-sig_b3=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                             "h8"=tabla_raw,"h12"=tabla_raw)
-sig_b4=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                             "h8"=tabla_raw,"h12"=tabla_raw)
-sig_b5=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                             "h8"=tabla_raw,"h12"=tabla_raw)
-sig_b6=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                                 "h8"=tabla_raw,"h12"=tabla_raw)
 
 #TL predictions
-TL=
-  list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                         "h8"=tabla_raw,"h12"=tabla_raw)
-TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
-                         "h8"=tabla_raw,"h12"=tabla_raw)
 TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
                          "h8"=tabla_raw,"h12"=tabla_raw)
 
@@ -149,22 +98,17 @@ TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
 #CaR predictions
 pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
                              "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
-pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
-                               "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
-pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
-                               "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
 
 
 banner("Parte 2:", "Quantile regressions for credit", emph = TRUE)
 ###########################################################################
-############################################################################
-###                                                                      ###
-###                               PARTE 2:                               ###
-###                 REGRESIONES CUANT?LICAS PARA CR?DITO                 ###
-###                                                                      ###
-############################################################################
-############################################################################
-
+###########################################################################
+###                                                                     ###
+###                              PARTE 2:                               ###
+###                   QUANTILE REGRESSIONS FOR CREDIT                   ###
+###                                                                     ###
+###########################################################################
+###########################################################################
 
 # horizon
 
@@ -185,7 +129,7 @@ for (h in h_horizon){
                 NFCI_z=NFCI,
                 fci_z=fci, 
                 credit_f_z=credit_f, # credit factor
-                f_global_z=wpi,
+                f_global_z=vol_wpi,
                 f_fin_z=SV,
                 USUN_z=USUN) %>% 
     mutate(stock_h=lead(stock_z,h),
@@ -193,7 +137,7 @@ for (h in h_horizon){
            gdp_h=lead(gdp_z,h))
   
   
-  for (country_name in credit_countries){ # acá empieza loop para país
+  for (country_name in credit_countries){ # acá empieza loop para país CAMBIAR PARA GAR E EAR
     
     data_model<-data_reg %>% 
       group_by(country) %>% 
@@ -201,13 +145,11 @@ for (h in h_horizon){
     Y.train=as.matrix(data_model[,"credit_h"])
     
     if (h==0){
-      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","credit_f_z","f_global_z","f_fin_z")]))
-      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("USUN_z","credit_f_z","f_global_z","f_fin_z")]))
-      X.train3<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","fci_z","credit_f_z","f_global_z","f_fin_z")]))
+      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","REAL_z","credit_f_z","f_global_z")]))
+      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("REAL_z","credit_f_z","f_global_z")]))
     } else {
       X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","credit_f_z","f_global_z","f_fin_z")]))
       X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","USUN_z","credit_f_z","f_global_z","f_fin_z")]))
-      X.train3<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","fci_z","credit_f_z","f_global_z","f_fin_z")]))
     }
     
     tau_q =c(0.05,0.25,0.50,0.75,0.95) # aca empieza loop quantile
@@ -222,8 +164,7 @@ for (h in h_horizon){
       
       M1<- QregBB(Y.train,X.train1,tau=tau,l=4,B=500,h=NULL,alpha=0.1)
       M2<- QregBB(Y.train,X.train2,tau=tau,l=4,B=500,h=NULL,alpha=0.1)
-      M3<- QregBB(Y.train,X.train3,tau=tau,l=4,B=500,h=NULL,alpha=0.1)
-      
+
       #TL
       pred=(as.matrix(X.train1)%*%as.matrix(M1$beta.hat))
       pred
