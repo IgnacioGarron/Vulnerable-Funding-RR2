@@ -220,7 +220,7 @@ banner("Parte 4:", "MERGE", emph = TRUE)
 
 data_final_wide <- complete_data %>% pivot_wider(names_from = c("variable"),values_from="value",names_sort=TRUE)
 
-factors<-cbind(data_final_long[1:240,1],"credit_f"=dfm_global$pca[,1],"stock_f"=dfm_global2$pca[,1],"gdp_f"=dfm_global3$pca[,1])
+factors<-cbind(data_final_long[1:240,1],"credit_f"=dfm_global$twostep[,1],"stock_f"=dfm_global2$twostep[,1],"gdp_f"=dfm_global3$twostep[,1])
 names(factors)<-c("date","credit_f","stock_f","gdp_f")
 
 data_final_wide <-left_join(data_final_wide,factors,by ="date")
