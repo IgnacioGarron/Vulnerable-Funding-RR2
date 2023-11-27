@@ -10,8 +10,8 @@ library(QregBB)
 ########################################################
 # Importa datos de consolidados
 rm(list = ls()) # Limpiar environment
-setwd("/Users/ignaciogarronvedia/Documents/GitHub/Vulnerable_Funding")
-data <- read.csv("Data/Data_final.csv")
+data <- read.csv("../Data/Data_final.csv")
+
 
 # Vector de tiempo a partir de POSIXct
 data$date   <-as.Date(data$date) # fechas forma 1
@@ -65,7 +65,7 @@ colnames(tabla_raw)<-c("country","q=0.05","q=0.25","q=0.50","q=0.75","q=0.95")
 
 tabla_raw_pred<-data.frame(matrix(ncol=length(credit_countries),nrow=176)) #length fci 1973-1
 colnames(tabla_raw_pred)<-credit_countries
-rownames(tabla_raw_pred)<-date$date
+#rownames(tabla_raw_pred)<-date$date
 
 
 # M1: y_t+h=b1*y_t+b2*nfciUS_t+b3*RealUS_t+b4*cross_factor+b5*Worldvol
@@ -100,7 +100,7 @@ TL=list("h0"=tabla_raw,"h1"=tabla_raw,"h4"=tabla_raw,
 
 
 #CaR predictions
-pred=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
+Pred_list=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[-1:-4,],
           "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
 
 
@@ -114,8 +114,13 @@ banner("Parte 2:", "Quantile regressions for credit", emph = TRUE)
 ###########################################################################
 ###########################################################################
 
-# horizon
+# Test
 
+h<-4
+q<-0.05
+country_name="Bolivia"
+
+# horizon
 h_horizon<-c(0,1,4,8,12) # Acá empieza loop para h
 
 for (h in h_horizon){
@@ -131,9 +136,10 @@ for (h in h_horizon){
                 inf_z=inf,
                 yield_z=yield,
                 NFCI_z=NFCI,
-                fci_z=fci, 
+                Real_z=VOL_GROWTH,
+                #fci_z=fci, 
                 credit_f_z=credit_f, # credit factor
-                f_global_z=vol_wpi,
+                f_global_z=,
                 f_fin_z=SV,
                 USUN_z=USUN) %>% 
     mutate(stock_h=lead(stock_z,h),
@@ -145,15 +151,15 @@ for (h in h_horizon){
     
     data_model<-data_reg %>% 
       group_by(country) %>% 
-      filter(complete.cases(credit_h,credit_z,NFCI_z,fci_z),country==country_name) 
+      filter(complete.cases(credit_h,credit_z,NFCI_z),country==country_name) 
     Y.train=as.matrix(data_model[,"credit_h"])
     
     if (h==0){
       X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","REAL_z","credit_f_z","f_global_z")]))
       X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("REAL_z","credit_f_z","f_global_z")]))
     } else {
-      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","credit_f_z","f_global_z","f_fin_z")]))
-      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","USUN_z","credit_f_z","f_global_z","f_fin_z")]))
+      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","REAL_z","credit_f_z","f_global_z")]))
+      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","REAL_z","credit_f_z","f_global_z")]))
     }
     
     tau_q =c(0.05,0.25,0.50,0.75,0.95) # aca empieza loop quantile
@@ -171,17 +177,15 @@ for (h in h_horizon){
       
       #TL
       pred=(as.matrix(X.train1)%*%as.matrix(M1$beta.hat))
-      pred
       TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=
         mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
+      
+      if (tau==0.02) Pred_list[[paste0("h",h)]]$country==country_name
       
       pred=(as.matrix(X.train2)%*%as.matrix(M2$beta.hat))
       TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=
         mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
       
-      pred=(as.matrix(X.train3)%*%as.matrix(M3$beta.hat))
-      TL[[paste0("h",h)]][TL[[paste0("h",h)]]$country==country_name,j]=
-        mean((Y.train-pred)*(tau-ifelse(Y.train<pred,1,0)))
       
       if (h!=0){ # no hay h=0 para rezago
         
@@ -201,40 +205,7 @@ for (h in h_horizon){
         coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
           M1$beta.hat[6]
         
-        coef_b1[[paste0("h",h)]][coef_b1[[paste0("h",h)]]$country==country_name,j]=
-          M2$beta.hat[2]
-        
-        coef_b2[[paste0("h",h)]][coef_b2[[paste0("h",h)]]$country==country_name,j]=
-          M2$beta.hat[3]
-        
-        coef_b3[[paste0("h",h)]][coef_b3[[paste0("h",h)]]$country==country_name,j]=
-          M2$beta.hat[4]
-        
-        coef_b4[[paste0("h",h)]][coef_b4[[paste0("h",h)]]$country==country_name,j]=
-          M2$beta.hat[5]
-        
-        coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
-          M2$beta.hat[6]
-        
-        
-        coef_b1[[paste0("h",h)]][coef_b1[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[2]
-        
-        coef_b2[[paste0("h",h)]][coef_b2[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[3]
-        
-        coef_b3[[paste0("h",h)]][coef_b3[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[4]
-        
-        coef_b4[[paste0("h",h)]][coef_b4[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[5]
-        
-        coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[6]
-        
-        coef_b6[[paste0("h",h)]][coef_b6[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[7]
-        
+         
         # sig 
         
         sig_b1[[paste0("h",h)]][sig_b1[[paste0("h",h)]]$country==country_name,j]=
@@ -253,42 +224,7 @@ for (h in h_horizon){
         sig_b5[[paste0("h",h)]][sig_b5[[paste0("h",h)]]$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[6,1] & 0 < M1$SETBB.confint[6,2], 0, 1)
         
-        
-        sig_b1[[paste0("h",h)]][sig_b1[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[2,1] & 0 < M2$SETBB.confint[2,2], 0, 1)
-        
-        sig_b2[[paste0("h",h)]][sig_b2[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[3,1] & 0 < M2$SETBB.confint[3,2], 0, 1)
-        
-        sig_b3[[paste0("h",h)]][sig_b3[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[4,1] & 0 < M2$SETBB.confint[4,2], 0, 1)
-        
-        sig_b4[[paste0("h",h)]][sig_b4[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[5,1] & 0 < M2$SETBB.confint[5,2], 0, 1)
-        
-        sig_b5[[paste0("h",h)]][sig_b5[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[6,1] & 0 < M2$SETBB.confint[6,2], 0, 1)
-        
-        
-        sig_b1[[paste0("h",h)]][sig_b1[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[2,1] & 0 < M3$SETBB.confint[2,2], 0, 1)
-        
-        sig_b2[[paste0("h",h)]][sig_b2[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[3,1] & 0 < M3$SETBB.confint[3,2], 0, 1)
-        
-        sig_b3[[paste0("h",h)]][sig_b3[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[4,1] & 0 < M3$SETBB.confint[4,2], 0, 1)
-        
-        sig_b4[[paste0("h",h)]][sig_b4[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[5,1] & 0 < M3$SETBB.confint[5,2], 0, 1)
-        
-        sig_b5[[paste0("h",h)]][sig_b5[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[6,1] & 0 < M3$SETBB.confint[6,2], 0, 1)
-        
-        sig_b6[[paste0("h",h)]][sig_b6[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[7,1] & 0 < M3$SETBB.confint[7,2], 0, 1)
-        
-        
+  
       } else {
         
         #b2
@@ -305,77 +241,7 @@ for (h in h_horizon){
           M1$beta.hat[5]
         
         
-        coef_b2[[paste0("h",h)]][coef_b2[[paste0("h",h)]]$country==country_name,j]=
-          M2$beta.hat[2]
-        
-        coef_b3[[paste0("h",h)]][coef_b3[[paste0("h",h)]]$country==country_name,j]=
-          M2$beta.hat[3]
-        
-        coef_b4[[paste0("h",h)]][coef_b4[[paste0("h",h)]]$country==country_name,j]=
-          M2$beta.hat[4]
-        
-        coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
-          M2$beta.hat[5]
-        
-        
-        coef_b2[[paste0("h",h)]][coef_b2[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[2]
-        
-        coef_b3[[paste0("h",h)]][coef_b3[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[3]
-        
-        coef_b4[[paste0("h",h)]][coef_b4[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[4]
-        
-        coef_b5[[paste0("h",h)]][coef_b5[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[5]
-        
-        coef_b6[[paste0("h",h)]][coef_b6[[paste0("h",h)]]$country==country_name,j]=
-          M3$beta.hat[6]
-        
-        
-        sig_b2[[paste0("h",h)]][ sig_b2[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M1$SETBB.confint[2,1] & 0 < M1$SETBB.confint[2,2], 0, 1)
-        
-        sig_b3[[paste0("h",h)]][ sig_b3[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M1$SETBB.confint[3,1] & 0 < M1$SETBB.confint[3,2], 0, 1)
-        
-        sig_b4[[paste0("h",h)]][ sig_b4[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M1$SETBB.confint[4,1] & 0 < M1$SETBB.confint[4,2], 0, 1)
-        
-        sig_b5[[paste0("h",h)]][ sig_b5[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M1$SETBB.confint[5,1] & 0 < M1$SETBB.confint[5,2], 0, 1)
-        
-        
-        
-        sig_b2[[paste0("h",h)]][sig_b2[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[2,1] & 0 < M2$SETBB.confint[2,2], 0, 1)
-        
-        sig_b3[[paste0("h",h)]][sig_b3[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[3,1] & 0 < M2$SETBB.confint[3,2], 0, 1)
-        
-        sig_b4[[paste0("h",h)]][sig_b4[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[4,1] & 0 < M2$SETBB.confint[4,2], 0, 1)
-        
-        sig_b5[[paste0("h",h)]][sig_b5[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[5,1] & 0 < M2$SETBB.confint[5,2], 0, 1)
-        
-        
-        sig_b2[[paste0("h",h)]][ sig_b2[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[2,1] & 0 < M3$SETBB.confint[2,2], 0, 1)
-        
-        sig_b3[[paste0("h",h)]][sig_b3[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[3,1] & 0 < M3$SETBB.confint[3,2], 0, 1)
-        
-        sig_b4[[paste0("h",h)]][sig_b4[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[4,1] & 0 < M3$SETBB.confint[4,2], 0, 1)
-        
-        sig_b5[[paste0("h",h)]][sig_b5[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[5,1] & 0 < M3$SETBB.confint[5,2], 0, 1)
-        
-        sig_b6[[paste0("h",h)]][sig_b6[[paste0("h",h)]]$country==country_name,j]=
-          ifelse(0 > M3$SETBB.confint[6,1] & 0 < M3$SETBB.confint[6,2], 0, 1)
-        
+   
       }
     }
   }
