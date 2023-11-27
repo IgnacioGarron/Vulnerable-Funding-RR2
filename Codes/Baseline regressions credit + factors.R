@@ -41,22 +41,8 @@ credit_countries<-c("Argentina",      "Australia" ,     "Austria",      "Belgium
                     "South Africa",   "Spain" ,         "Sweden",       "Switzerland",    "Taiwan",        
                     "Thailand",       "Turkey",         "United Kingdom", "Uruguay")    
 
-stock_countries<-c("Australia"      ,"Austria"        ,"Belgium"        ,"Canada"         ,"Chile",         
-                   "Denmark"        ,"Finland"        ,"France"         ,"Germany"        ,"India",         
-                   "Ireland"        ,"Israel"         ,"Italy"          ,"Japan"          ,"Mexico",        
-                   "Netherlands"    ,"New Zealand"    ,"Norway"         ,"Peru"           ,"Philippines",   
-                   "South Africa"   ,"Spain"          ,"Sweden"         ,"Switzerland"    ,"United Kingdom")
-
-gdp_countries<-c("Argentina"      ,"Australia"      ,"Austria"        ,"Belgium"        ,"Brazil"         ,"Canada",        
-                  "Chile"          ,"Denmark"        ,"Finland"        ,"France"         ,"Germany"        ,"Greece",        
-                  "Iceland"        ,"India"          ,"Ireland"        ,"Israel"         ,"Italy"          ,"Japan" ,        
-                  "Korea"          ,"Mexico"         ,"Morocco"        ,"Netherlands"    ,"New Zealand"    ,"Norway",        
-                  "Pakistan"       ,"Philippines"    ,"Portugal"       ,"South Africa"   ,"Spain"          ,"Sweden" ,       
-                  "Switzerland"    ,"Taiwan"         ,"Turkey"         ,"United Kingdom" ,"Uruguay"        ,"Luxembourg")    
 
 length(credit_countries)
-length(stock_countries)
-length(gdp_countries)
 
 
 tabla_raw<-data.frame(matrix(nrow=length(credit_countries),ncol=6))
@@ -271,5 +257,4 @@ save(sig_b5,file ="../Data/M1_credit_baseline_sig_b5.RData")
 save(TL1,file ="../Data/M1_credit_baseline_TL.RData")
 save(TL2,file ="../Data/M2_credit_baseline_TL.RData")
 save(Pred_list,file ="../Data/M2_credit_baseline_Pred.RData")
-
 
