@@ -205,9 +205,7 @@ ggsave(paste0("../Figures/FIG1",".png"),
 plot(ts(dfm_global$pca[,1]),t="l")
 plot(ts(dfm_global2$pca[,1]),t="l",col=2)
 plot(ts(dfm_global3$pca[,1]),t="l",col=3)
-legend(xlim=c(-1,1))
 
-lines(fin_factor,t="l",col=2)
 
 
 banner("Parte 4:", "MERGE", emph = TRUE)
