@@ -43,20 +43,20 @@ set.seed(123)
 # credit_countries<-as.matrix(credit_countries)
 
 
-stock_countries<-c("Australia","Austria","Belgium","Canada","Denmark","Finland","France",
-                   "Germany","Ireland","Italy","Japan","Mexico","Netherlands","Norway",
-                   "Spain","Sweden","Switzerland")
+gdp_countries<-c("Australia","Austria","Belgium","Canada","Denmark","Finland","France",
+                    "Germany","Greece","Iceland","Ireland","Italy","Japan","Korea","Mexico",
+                    "Netherlands","Norway","Portugal","Spain", "Sweden","Switzerland")
 
 
-length(stock_countries)
+length(gdp_countries)
 
 
-tabla_raw<-data.frame(matrix(nrow=length(stock_countries),ncol=6))
-tabla_raw[,1]<-stock_countries
+tabla_raw<-data.frame(matrix(nrow=length(gdp_countries),ncol=6))
+tabla_raw[,1]<-gdp_countries
 colnames(tabla_raw)<-c("country","q=0.05","q=0.25","q=0.50","q=0.75","q=0.95")
 
-tabla_raw_pred<-data.frame(matrix(ncol=length(stock_countries),nrow=188)) #length fci 1973-1
-colnames(tabla_raw_pred)<-stock_countries
+tabla_raw_pred<-data.frame(matrix(ncol=length(gdp_countries),nrow=188)) #length fci 1973-1
+colnames(tabla_raw_pred)<-gdp_countries
 #rownames(tabla_raw_pred)<-date$date
 
 
@@ -103,12 +103,12 @@ Pred_list=list("h0"=tabla_raw_pred,"h1"=tabla_raw_pred[-1,],"h4"=tabla_raw_pred[
                "h8"=tabla_raw_pred[-1:-8,],"h12"=tabla_raw_pred[-1:-12,])
 
 
-banner("Parte 2:", "Quantile regressions for stock", emph = TRUE)
+banner("Parte 2:", "Quantile regressions for gdp", emph = TRUE)
 ###########################################################################
 ###########################################################################
 ###                                                                     ###
 ###                              PARTE 2:                               ###
-###                   QUANTILE REGRESSIONS FOR stock                   ###
+###                   QUANTILE REGRESSIONS FOR gdp                   ###
 ###                                                                     ###
 ###########################################################################
 ###########################################################################
@@ -139,7 +139,7 @@ for (h in h_horizon){
                 NFCI_z=NFCI,
                 Real_z=VOL_GROWTH,
                 fci_z=fci, 
-                stock_f_z=stock_f, # stock factor
+                gdp_f_z=gdp_f, # gdp factor
                 f_global_z=VOL_WPI,
                 f_fin_z=SV,
                 USUN_z=USUN) %>% 
@@ -148,19 +148,19 @@ for (h in h_horizon){
            gdp_h=lead(gdp_z,h))
   
   
-  for (country_name in stock_countries){ # acá empieza loop para país CAMBIAR PARA GAR E EAR
+  for (country_name in gdp_countries){ # acá empieza loop para país CAMBIAR PARA GAR E EAR
     
     data_model<-data_reg %>% 
       group_by(country) %>% 
-      filter(complete.cases(stock_h,stock_z,fci_z,NFCI_z,f_global_z),country==country_name) 
-    Y.train=as.matrix(data_model[,"stock_h"])
+      filter(complete.cases(gdp_h,gdp_z,fci_z,NFCI_z,f_global_z),country==country_name) 
+    Y.train=as.matrix(data_model[,"gdp_h"])
     
     if (h==0){
-      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","fci_z","Real_z","stock_f_z","f_global_z")]))
-      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("fci_z","Real_z","stock_f_z","f_global_z")]))
+      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","fci_z","Real_z","gdp_f_z","f_global_z")]))
+      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("fci_z","Real_z","gdp_f_z","f_global_z")]))
     } else {
-      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("stock_z","NFCI_z","fci_z","Real_z","stock_f_z","f_global_z")]))
-      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("stock_z","fci_z","Real_z","stock_f_z","f_global_z")]))
+      X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("gdp_z","NFCI_z","fci_z","Real_z","gdp_f_z","f_global_z")]))
+      X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("gdp_z","fci_z","Real_z","gdp_f_z","f_global_z")]))
     }
     
     tau_q =c(0.05,0.25,0.50,0.75,0.95) # aca empieza loop quantile
@@ -276,22 +276,22 @@ for (h in h_horizon){
 }
 
 
-save(coef_b1,file ="../Data/M1_stock_fci_coef_b1.RData")
-save(coef_b2,file ="../Data/M1_stock_fci_coef_b2.RData")
-save(coef_b3,file ="../Data/M1_stock_fci_b3.RData")
-save(coef_b4,file ="../Data/M1_stock_fci_b4.RData")
-save(coef_b5,file ="../Data/M1_stock_fci_b5.RData")
-save(coef_b6,file ="../Data/M1_stock_fci_b5.RData")
+save(coef_b1,file ="../Data/M1_gdp_fci_coef_b1.RData")
+save(coef_b2,file ="../Data/M1_gdp_fci_coef_b2.RData")
+save(coef_b3,file ="../Data/M1_gdp_fci_b3.RData")
+save(coef_b4,file ="../Data/M1_gdp_fci_b4.RData")
+save(coef_b5,file ="../Data/M1_gdp_fci_b5.RData")
+save(coef_b6,file ="../Data/M1_gdp_fci_b5.RData")
 
 
-save(sig_b1,file ="../Data/M1_stock_fci_sig_b1.RData")
-save(sig_b2,file ="../Data/M1_stock_fci_sig_b2.RData")
-save(sig_b3,file ="../Data/M1_stock_fci_sig_b3.RData")
-save(sig_b4,file ="../Data/M1_stock_fci_sig_b4.RData")
-save(sig_b5,file ="../Data/M1_stock_fci_sig_b5.RData")
-save(sig_b6,file ="../Data/M1_stock_fci_sig_b5.RData")
+save(sig_b1,file ="../Data/M1_gdp_fci_sig_b1.RData")
+save(sig_b2,file ="../Data/M1_gdp_fci_sig_b2.RData")
+save(sig_b3,file ="../Data/M1_gdp_fci_sig_b3.RData")
+save(sig_b4,file ="../Data/M1_gdp_fci_sig_b4.RData")
+save(sig_b5,file ="../Data/M1_gdp_fci_sig_b5.RData")
+save(sig_b6,file ="../Data/M1_gdp_fci_sig_b5.RData")
 
 
-save(TL1,file ="../Data/M1_stock_fci_TL.RData")
-save(TL2,file ="../Data/M2_stock_fci_TL.RData")
-save(Pred_list,file ="../Data/M2_stock_fci_Pred.RData")
+save(TL1,file ="../Data/M1_gdp_fci_TL.RData")
+save(TL2,file ="../Data/M2_gdp_fci_TL.RData")
+save(Pred_list,file ="../Data/M2_gdp_fci_Pred.RData")

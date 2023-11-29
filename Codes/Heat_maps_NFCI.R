@@ -13,8 +13,7 @@ library(ggpubr) #ggarrane
 ########################################################
 # Importa datos de consolidados
 rm(list = ls()) # Limpiar environment
-setwd("/Users/ignaciogarronvedia/Documents/GitHub/Vulnerable_Funding")
-data <- read.csv("Data/Data_final.csv")
+data <- read.csv("../Data/Data_final.csv")
 
 
 ##### important function!!!!
@@ -35,42 +34,42 @@ data$date   <-as.Date(data$date) # fechas forma 1
 for (order in c(1,2,6)){
 
 if(order==1){
-Sort <- read_excel("Data/USdirectinvest.xlsx", sheet = "inv_GDP") %>% 
+Sort <- read_excel("../Data/USdirectinvest.xlsx", sheet = "inv_GDP") %>% 
   pivot_longer(names_to="year",values_to="value",cols=c(-country,-isocode)) %>% 
   group_by(country) %>% 
   summarise(Sort=mean(value,na.rm = TRUE))
 ylab<-"Countries ordered by U.S. Investment relative to country's GDP"
 o<-"inv_GDP" 
 } else if(order==2){
-Sort <- read_excel("Data/USdirectinvest.xlsx", sheet = "Credit_to_GDP") %>% 
+Sort <- read_excel("../Data/USdirectinvest.xlsx", sheet = "Credit_to_GDP") %>% 
   pivot_longer(names_to="year",values_to="value",cols=c(-country,-isocode)) %>% 
   group_by(country) %>% 
   summarise(Sort=mean(value,na.rm = TRUE))
 ylab<-"Countries ordered by country's credit to GDP"
 o<-"Credit_to_GDP"
 } else if(order==3){
-Sort  <- read_excel("Data/USdirectinvest.xlsx", sheet = "MarketCAP_to_GDP") %>% 
+Sort  <- read_excel("../Data/USdirectinvest.xlsx", sheet = "MarketCAP_to_GDP") %>% 
   pivot_longer(names_to="year",values_to="value",cols=c(-country,-isocode)) %>% 
   group_by(country) %>% 
   summarise(Sort=mean(value,na.rm = TRUE))
 ylab<-"Countries ordered by country's market CAP to GDP"
 o<-"MarketCAP_to_GDP"
 } else if(order==4){
-  Sort<- read_excel("Data/USdirectinvest.xlsx", sheet = "fin_depth") %>% 
+  Sort<- read_excel("../Data/USdirectinvest.xlsx", sheet = "fin_depth") %>% 
   pivot_longer(names_to="year",values_to="value",cols=c(-country,-isocode)) %>% 
   group_by(country) %>% 
   summarise(Sort=mean(value,na.rm = TRUE))
 ylab<-"Countries ordered by country's Financial Institutions Depth Index"
 o<-"fin_depth"
 } else if(order==5){
-Sort<- read_excel("Data/USdirectinvest.xlsx", sheet = "market_depth") %>% 
+Sort<- read_excel("../Data/USdirectinvest.xlsx", sheet = "market_depth") %>% 
   pivot_longer(names_to="year",values_to="value",cols=c(-country,-isocode)) %>% 
   group_by(country) %>% 
   summarise(Sort=mean(value,na.rm = TRUE))
 ylab<-"Countries ordered by country's Financial Markets Depth Index"
 o<-"market_depth"
 } else if(order==6){
-  Sort<- read_excel("Data/USdirectinvest.xlsx", sheet = "Chinn-Ito") %>% 
+  Sort<- read_excel("../Data/USdirectinvest.xlsx", sheet = "Chinn-Ito") %>% 
     pivot_longer(names_to="year",values_to="value",cols=c(-country,-isocode)) %>% 
     group_by(country) %>% 
     summarise(Sort=mean(value,na.rm = TRUE))
@@ -91,7 +90,7 @@ banner("Parte 1:", "heat map para credit", emph = TRUE)
 ############################################################################
 ############################################################################
 varname<-c("credit","stock")
-us_shock<-c("NFCI","FUI")
+us_shock<-c("NFCI") #
 
 for (var in varname){
 
@@ -100,8 +99,8 @@ for (us in us_shock){
 if (us=="NFCI") model<-"M1"
 if (us=="FUI") model<-"M2"
   
-M_b <- loadRData(paste0("Data/",model,"_",var,"_factor_coef_b2.RData"))
-M_sig <- loadRData(paste0("Data/",model,"_",var,"_factor_sig_b2.RData"))
+M_b <- loadRData(paste0("../Data/",model,"_",var,"_baseline_coef_b2.RData"))
+M_sig <- loadRData(paste0("../Data/",model,"_",var,"_baseline_sig_b2.RData"))
 
 
 # if (var=="credit" & us=="NFCI"){
@@ -131,15 +130,15 @@ minmax<- modelc %>% arrange(Sort) %>%
            mutate(tot=1) %>% group_by(tot) %>% 
            summarise(min=min(value),max=max(value))
 
-if (minmax$min<=-1.4) print(paste0("min está mal =",minmax$min))
-if (minmax$max>=1.2) print(paste0("max está mal=",minmax$max))
+if (minmax$min<=-1.8) print(paste0("min está mal =",minmax$min))
+if (minmax$max>=1.8) print(paste0("max está mal=",minmax$max))
 
 f1<-modelc %>% arrange(Sort) %>% 
   pivot_longer(names_to="variable",values_to="value",cols=c(-country,-Sort)) %>% 
   ggplot(aes(x=variable, y=country, fill= value)) +
   geom_tile() +
   scale_fill_gradient2(name = "Coefficients", low = "red", high = "darkblue", mid = "white", 
-                       midpoint =0, limits=c(-1.4,1.2), na.value="transparent")+
+                       midpoint =0, limits=c(-1.8,1.8), na.value="transparent")+
   ylab("") +
   xlab(expression("Quantiles"~tau)) + 
   labs(title=paste0("Horizon h=",h),
@@ -194,14 +193,14 @@ if (h==12) g2_5<-f2
 #                  ggarrange(f1,f2,ncol=2),width = 9, height = 6)
 }
 
-ggsave(paste0("Figures/heatmap_coeff_",var,"_",us,"o=",o,".png"), 
+ggsave(paste0("../Figures/heatmap_coeff_",var,"_",us,"o=",o,".png"), 
       ggarrange(g1_1,g1_2,g1_3,
                 g1_4,g1_5,
                 nrow=1,common.legend = T,legend = "bottom"),
                 width = 12, height = 6)
 
 
-ggsave(paste0("Figures/heatmap_sig_",var,"_",us,"o=",o,".png"), 
+ggsave(paste0("../Figures/heatmap_sig_",var,"_",us,"o=",o,".png"), 
        ggarrange(g2_1,g2_2,g2_3,
                  g2_4,g2_5,
                  nrow=1,common.legend = T,legend = "bottom"),

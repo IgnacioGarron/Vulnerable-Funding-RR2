@@ -14,7 +14,6 @@ library(gridGraphics)
 ########################################################
 # Importa datos de consolidados
 rm(list = ls()) # Limpiar environment
-setwd("/Users/ignaciogarronvedia/Documents/GitHub/Vulnerable_Funding")
 
 ##### important function!!!!
 loadRData <- function(fileName){
@@ -35,14 +34,14 @@ for (varname in c("credit","stock")){
   if (varname == "credit") name_col<-"CaR"
   else name_col<-"EaR"
   h=0
-  credit <- loadRData(paste0("Data/M1_",varname,"_factor_coef_b2.RData"))
-  gdp <- loadRData(paste0("Data/M1_gdp_factor_coef_b2.RData"))
+  credit <- loadRData(paste0("../Data/M1_",varname,"_baseline_coef_b2.RData"))
+  gdp <- loadRData(paste0("../Data/M1_gdp_baseline_coef_b2.RData"))
   new<-left_join(credit[[paste0("h",h)]][,1:2],gdp[[paste0("h",h)]][,1:2],by="country")
   colnames(new)<-c("h",paste0(name_col,", h=",h),paste0("GaR, h=",h))
   
   for (h in c(1,4,8,12)){
-    credit <- loadRData(paste0("Data/M1_",varname,"_factor_coef_b2.RData"))
-    gdp <- loadRData(paste0("Data/M1_gdp_factor_coef_b2.RData"))
+    credit <- loadRData(paste0("../Data/M1_",varname,"_baseline_coef_b2.RData"))
+    gdp <- loadRData(paste0("../Data/M1_gdp_baseline_coef_b2.RData"))
     new2<-left_join(credit[[paste0("h",h)]][,1:2],gdp[[paste0("h",h)]][,1:2],by="country")
     colnames(new2)<-c("h",paste0(name_col,", h=",h),paste0("GaR, h=",h))
     new<-cbind(new,new2[,-1])
@@ -59,36 +58,9 @@ for (varname in c("credit","stock")){
 
   g1<-myfun(M)
   
-  # FUN beta vs GaR, M3
-  
-  h=0
-  credit <- loadRData(paste0("Data/M2_",varname,"_factor_coef_b2.RData"))
-  gdp <- loadRData(paste0("Data/M2_gdp_factor_coef_b2.RData"))
-  new<-left_join(credit[[paste0("h",h)]][,1:2],gdp[[paste0("h",h)]][,1:2],by="country")
-  colnames(new)<-c("h",paste0(name_col,", h=",h),paste0("GaR, h=",h))
-  
-  for (h in c(1,4,8,12)){
-    credit <- loadRData(paste0("Data/M2_",varname,"_factor_coef_b2.RData"))
-    gdp <- loadRData(paste0("Data/M2_gdp_factor_coef_b2.RData"))
-    new2<-left_join(credit[[paste0("h",h)]][,1:2],gdp[[paste0("h",h)]][,1:2],by="country")
-    colnames(new2)<-c("h",paste0(name_col,", h=",h),paste0("GaR, h=",h))
-    new<-cbind(new,new2[,-1])
-  }
-  
-  M<-new %>%  select(-h) %>% 
-    do(data.frame(t(cor(.[,], .[,],use = "complete.obs"))))
-  
-  M<-M[c(1,3,5,7,9),c(2,4,6,8,10)]
-  
-  colnames(M)<-c("GaR, h=0","GaR, h=1","GaR, h=4","GaR, h=8","GaR, h=12")
-  
-  g2<-myfun(M)
-  
-  ggsave(paste0("Figures/Scatter_",varname,"_NFCI.jpg"),
+   
+  ggsave(paste0("../Figures/Scatter_",varname,"_NFCI.jpg"),
          ggarrange(g1,ncol = 1,nrow=1), width = 8, height = 4)
-  ggsave(paste0("Figures/Scatter_",varname,"_FU.jpg"),
-         ggarrange(g2,ncol = 1,nrow=1), width = 8, height = 4)
-  
   
 }
 

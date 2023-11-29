@@ -47,9 +47,6 @@ credit_countries<-c("Australia","Austria","Belgium","Canada","Denmark","Finland"
 "Netherlands","Norway","Portugal","Spain", "Sweden","Switzerland")
 
 
-stock_countries<-c("Australia","Austria","Belgium","Canada","Denmark","Finland","France",
-"Germany","Ireland","Italy","Japan","Mexico","Netherlands","Norway",
-"Spain","Sweden","Switzerland")
   
 
 length(credit_countries)

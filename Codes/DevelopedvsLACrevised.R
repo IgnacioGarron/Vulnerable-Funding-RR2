@@ -10,8 +10,7 @@ library(QregBB)
 ########################################################
 # Importa datos de consolidados
 rm(list = ls()) # Limpiar environment
-setwd("/Users/ignaciogarronvedia/Documents/GitHub/Vulnerable_Funding")
-data <- read.csv("Data/Data_final.csv")
+data <- read.csv("../Data/Data_final.csv")
 
 # Vector de tiempo a partir de POSIXct
 data$date   <-as.Date(data$date) # fechas forma 1
@@ -72,8 +71,10 @@ for (h in h_horizon){
                 inf_z=inf,
                 yield_z=yield,
                 NFCI_z=NFCI,
-                f_global_z=global_factor,
-                f_fin_z=fin_factor,
+                Real_z=VOL_GROWTH,                #fci_z=fci, 
+                credit_f_z=credit_f, # credit factor
+                f_global_z=VOL_WPI,
+                f_fin_z=SV,
                 USUN_z=USUN) %>% 
     mutate(stock_h=lead(stock_z,h),
            credit_h=lead(credit_z,h),
@@ -98,18 +99,15 @@ for (h in h_horizon){
           }
         
         if (h==0){
-          X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","f_global_z","f_fin_z")]))
-          X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("USUN_z","f_global_z","f_fin_z")]))
+          X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("NFCI_z","Real_z","credit_f_z","f_global_z")]))
         } else {
-          X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","f_global_z","f_fin_z")]))
-          X.train2<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","USUN_z","f_global_z","f_fin_z")]))
+          X.train1<-as.matrix(cbind(rep(1,length(Y.train[,1])),data_model[,c("credit_z","NFCI_z","Real_z","credit_f_z","f_global_z")]))
         }
     
           tau=c(0.25)
           
           M1<- QregBB(Y.train,X.train1,tau=tau,l=4,B=500,h=NULL,alpha=0.1)
-          M2<- QregBB(Y.train,X.train2,tau=tau,l=4,B=500,h=NULL,alpha=0.1)
-  
+
             if (h==0){ j=2
             } else if(h==1){ j=3
             } else if(h==4){ j=4
@@ -120,18 +118,12 @@ for (h in h_horizon){
       
         if(temp==1){
           M1_credit_factor_coef_b2_2008[M1_credit_factor_coef_b2_2008$country==country_name,j]=M1$beta.hat[3]
-          M2_credit_factor_coef_b2_2008[M2_credit_factor_coef_b2_2008$country==country_name,j]=M2$beta.hat[3]
           M1_credit_factor_sig_b2_2008[M1_credit_factor_sig_b2_2008$country==country_name,j]=
             ifelse(0 > M1$SETBB.confint[3,1] & 0 < M1$SETBB.confint[3,2], 0, 1)
-          M2_credit_factor_sig_b2_2008[M2_credit_factor_sig_b2_2008$country==country_name,j]=
-            ifelse(0 > M2$SETBB.confint[3,1] & 0 < M2$SETBB.confint[3,2], 0, 1)
         }else if(temp==2){
           M1_credit_factor_coef_b2_2019[M1_credit_factor_coef_b2_2019$country==country_name,j]=M1$beta.hat[3]
-          M2_credit_factor_coef_b2_2019[M2_credit_factor_coef_b2_2019$country==country_name,j]=M2$beta.hat[3]
           M1_credit_factor_sig_b2_2019[M1_credit_factor_sig_b2_2019$country==country_name,j]=
             ifelse(0 > M1$SETBB.confint[3,1] & 0 < M1$SETBB.confint[3,2], 0, 1)
-          M2_credit_factor_sig_b2_2019[M2_credit_factor_sig_b2_2019$country==country_name,j]=
-            ifelse(0 > M2$SETBB.confint[3,1] & 0 < M2$SETBB.confint[3,2], 0, 1)
         }
     
     } else {
@@ -139,21 +131,13 @@ for (h in h_horizon){
       if(temp==1){
         M1_credit_factor_coef_b2_2008[M1_credit_factor_coef_b2_2008$country==country_name,j]=
           M1$beta.hat[2]
-        M2_credit_factor_coef_b2_2008[M2_credit_factor_coef_b2_2008$country==country_name,j]=
-          M2$beta.hat[2]
         M1_credit_factor_sig_b2_2008[M1_credit_factor_sig_b2_2008$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[2,1] & 0 < M1$SETBB.confint[2,2], 0, 1)
-        M2_credit_factor_sig_b2_2008[M2_credit_factor_sig_b2_2008$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[2,1] & 0 < M2$SETBB.confint[2,2], 0, 1)
       }else if(temp==2){
         M1_credit_factor_coef_b2_2019[M1_credit_factor_coef_b2_2019$country==country_name,j]=
           M1$beta.hat[2]
-        M2_credit_factor_coef_b2_2019[M2_credit_factor_coef_b2_2019$country==country_name,j]=
-          M2$beta.hat[2]
         M1_credit_factor_sig_b2_2019[M1_credit_factor_sig_b2_2019$country==country_name,j]=
           ifelse(0 > M1$SETBB.confint[2,1] & 0 < M1$SETBB.confint[2,2], 0, 1)
-        M2_credit_factor_sig_b2_2019[M2_credit_factor_sig_b2_2019$country==country_name,j]=
-          ifelse(0 > M2$SETBB.confint[2,1] & 0 < M2$SETBB.confint[2,2], 0, 1)
       }
       }
     }
@@ -169,9 +153,7 @@ tabla[,1]<-c("IQR","Sig.","IQR","Sig.")
 colnames(tabla)<-c("","h=0","h=1","h=4","h=8","h=12")
 
 tabla_f<- data.frame()
-for (varcoef in c("NFCI","FUI")){
-    
-
+for (varcoef in c("NFCI")){
     
   if (varcoef == "NFCI"){
     M_b_2008 <- M1_credit_factor_coef_b2_2008
@@ -198,6 +180,6 @@ for (varcoef in c("NFCI","FUI")){
       }
     tabla_f<-rbind(tabla_f,tabla)
 }
-write.table(tabla_f, file = paste0("Tables/LAC_CaR_rev_.txt"), sep = ",", quote = FALSE, row.names = F)
+write.table(tabla_f, file = paste0("../Tables/LAC_CaR_rev_.txt"), sep = ",", quote = FALSE, row.names = F)
 
 
