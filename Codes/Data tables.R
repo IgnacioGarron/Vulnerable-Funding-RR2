@@ -27,8 +27,7 @@ banner("Parte 1:", "Procesamiento de la base de datos", emph = TRUE)
 ########################################################
 # Importa datos de FMI
 rm(list = ls()) # Limpiar environment
-setwd("/Users/ignaciogarronvedia/Documents/GitHub/Vulnerable_Funding") # Direcci?n principal
-data <- read_excel("Data/MonnetPuydata_2020.xls", sheet = "Sheet1")
+data <- read_excel("../Data/MonnetPuydata_2020.xls", sheet = "Sheet1")
 # Genera un vector de tiempo a partir de POSIXct
 data$date   <-as.Date(data$qdate) # fechas forma 1
 data$date_n <- as.yearqtr(paste0(data$year, "-", data$quarter),format = "%Y-%q") # se crea un vector de fechas adicional
