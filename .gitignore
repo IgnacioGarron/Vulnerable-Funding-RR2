@@ -3,6 +3,5 @@
 .RData
 .Ruserdata
 Figures/*
-Tables/*
 Docs/*
 Data/*.RData
