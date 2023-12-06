@@ -59,6 +59,16 @@ tabla[,2]<-c("","IQR","Sig.","IQR","Sig.","IQR","Sig.","IQR","Sig.",
              "","IQR","Sig.","IQR","Sig.","IQR","Sig.","IQR","Sig.","IQR","Sig.","dTL","dTL","dTL")
 colnames(tabla)<-c("","","q=0.05","q=0.25","q=0.50","q=0.75","q=0.95")
 
+
+tabla_appendix<-data.frame(matrix(nrow=24,ncol=7))
+tabla_appendix[,1]<-c(
+             "h=8","y_it","","nfciUS_t","","macroUS_t","","crossG_t","","macroG_t","",
+             "h=12","y_it","","nfciUS_t","","macroUS_t","","crossG_t","","macroG_t","","M1","M2")
+tabla_appendix[,2]<-c(
+             "","IQR","Sig.","IQR","Sig.","IQR","Sig.","IQR","Sig.","IQR","Sig.",
+             "","IQR","Sig.","IQR","Sig.","IQR","Sig.","IQR","Sig.","IQR","Sig.","dTL","dTL")
+colnames(tabla_appendix)<-c("","","q=0.05","q=0.25","q=0.50","q=0.75","q=0.95")
+
 for (var in c("credit","stock","gdp")){
   
   M1_b1 <- loadRData(paste0("../Data/M1_",var,"_baseline_coef_b1.RData"))
@@ -143,5 +153,57 @@ for (var in c("credit","stock","gdp")){
   tabla[34,j+1]=round(mean((-M1_TL[["h4"]][,j]+M2_TL[["h4"]][,j])/M2_TL[["h4"]][,j]*100),2)
   }
   write.table(tabla, file = paste0("../Tables/baseline_reg_",var,".txt"), sep = ",", quote = FALSE, row.names = F)
+  
+  for (j in 2:6){
+    
+    h_name<-paste0("h8")
+    
+    tabla_appendix[2,j+1]=paste0("[",round(quantile(M1_b1[[h_name]][,j],0.25),2),";",
+                         round(quantile(M1_b1[[h_name]][,j],0.75),2),"]")
+    tabla_appendix[3,j+1]=round(mean(M1_sig1[[h_name]][,j]),2)
+    
+    tabla_appendix[4,j+1]=paste0("[",round(quantile(M1_b2[[h_name]][,j],0.25),2),";",
+                         round(quantile(M1_b2[[h_name]][,j],0.75),2),"]")
+    tabla_appendix[5,j+1]=round(mean(M1_sig2[[h_name]][,j]),2)
+    
+    tabla_appendix[6,j+1]=paste0("[",round(quantile(M1_b3[[h_name]][,j],0.25),2),";",
+                         round(quantile(M1_b3[[h_name]][,j],0.75),2),"]")
+    tabla_appendix[7,j+1]=round(mean(M1_sig3[[h_name]][,j]),2)
+    
+    tabla_appendix[8,j+1]=paste0("[",round(quantile(M1_b4[[h_name]][,j],0.25),2),";",
+                         round(quantile(M1_b4[[h_name]][,j],0.75),2),"]")
+    tabla_appendix[9,j+1]=round(mean(M1_sig4[[h_name]][,j]),2)
+    
+    tabla_appendix[10,j+1]=paste0("[",round(quantile(M1_b5[[h_name]][,j],0.25),2),";",
+                         round(quantile(M1_b5[[h_name]][,j],0.75),2),"]")
+    tabla_appendix[11,j+1]=round(mean(M1_sig5[[h_name]][,j]),2)
+    
+    h_name<-paste0("h12")
+    
+    tabla_appendix[13,j+1]=paste0("[",round(quantile(M1_b1[[h_name]][,j],0.25),2),";",
+                         round(quantile(M1_b1[[h_name]][,j],0.75),2),"]")
+    tabla_appendix[14,j+1]=round(mean(M1_sig1[[h_name]][,j]),2)
+    
+    tabla_appendix[15,j+1]=paste0("[",round(quantile(M1_b2[[h_name]][,j],0.25),2),";",
+                         round(quantile(M1_b2[[h_name]][,j],0.75),2),"]")
+    tabla_appendix[16,j+1]=round(mean(M1_sig2[[h_name]][,j]),2)
+    
+    tabla_appendix[17,j+1]=paste0("[",round(quantile(M1_b3[[h_name]][,j],0.25),2),";",
+                         round(quantile(M1_b3[[h_name]][,j],0.75),2),"]")
+    tabla_appendix[18,j+1]=round(mean(M1_sig3[[h_name]][,j]),2)
+    
+    tabla_appendix[19,j+1]=paste0("[",round(quantile(M1_b4[[h_name]][,j],0.25),2),";",
+                         round(quantile(M1_b4[[h_name]][,j],0.75),2),"]")
+    tabla_appendix[20,j+1]=round(mean(M1_sig4[[h_name]][,j]),2)
+    
+    tabla_appendix[21,j+1]=paste0("[",round(quantile(M1_b5[[h_name]][,j],0.25),2),";",
+                         round(quantile(M1_b5[[h_name]][,j],0.75),2),"]")
+    tabla_appendix[22,j+1]=round(mean(M1_sig5[[h_name]][,j]),2)
+    
+    tabla_appendix[23,j+1]=round(mean((-M1_TL[["h8"]][,j]+M2_TL[["h8"]][,j])/M2_TL[["h8"]][,j]*100),2)
+    tabla_appendix[24,j+1]=round(mean((-M1_TL[["h12"]][,j]+M2_TL[["h12"]][,j])/M2_TL[["h12"]][,j]*100),2)
+  }
+  write.table(tabla_appendix, file = paste0("../Tables/baseline_reg_app_",var,".txt"), sep = ",", quote = FALSE, row.names = F)
+  
 }
 

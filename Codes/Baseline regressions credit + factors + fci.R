@@ -282,7 +282,7 @@ save(coef_b2,file ="../Data/M1_credit_fci_coef_b2.RData")
 save(coef_b3,file ="../Data/M1_credit_fci_b3.RData")
 save(coef_b4,file ="../Data/M1_credit_fci_b4.RData")
 save(coef_b5,file ="../Data/M1_credit_fci_b5.RData")
-save(coef_b6,file ="../Data/M1_credit_fci_b5.RData")
+save(coef_b6,file ="../Data/M1_credit_fci_b6.RData")
 
 
 save(sig_b1,file ="../Data/M1_credit_fci_sig_b1.RData")
@@ -290,10 +290,10 @@ save(sig_b2,file ="../Data/M1_credit_fci_sig_b2.RData")
 save(sig_b3,file ="../Data/M1_credit_fci_sig_b3.RData")
 save(sig_b4,file ="../Data/M1_credit_fci_sig_b4.RData")
 save(sig_b5,file ="../Data/M1_credit_fci_sig_b5.RData")
-save(sig_b6,file ="../Data/M1_credit_fci_sig_b5.RData")
+save(sig_b6,file ="../Data/M1_credit_fci_sig_b6.RData")
 
 
 save(TL1,file ="../Data/M1_credit_fci_TL.RData")
 save(TL2,file ="../Data/M2_credit_fci_TL.RData")
-save(Pred_list,file ="../Data/M2_credit_fci_Pred.RData")
+save(Pred_list,file ="../Data/M1_credit_fci_Pred.RData")
 
