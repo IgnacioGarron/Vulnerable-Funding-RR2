@@ -103,15 +103,15 @@ M_b <- loadRData(paste0("../Data/",model,"_",var,"_baseline_coef_b2.RData"))
 M_sig <- loadRData(paste0("../Data/",model,"_",var,"_baseline_sig_b2.RData"))
 
 
-# if (var=="credit" & us=="NFCI"){
-#   title="NFCI coefficients for real credit growth"
-# } else if (var=="credit" & beta=="FUI"){
-#   title="FUI coefficients for real credit growth" 
-# }else if (var=="stock" & beta=="NFCI"){
-#   title="NFCI coefficients for stock prices growth" 
-# }else if (var=="stock" & beta=="FUI"){
-#   title="FUI coefficients for stock prices growth" 
-# }
+if (var=="credit" & us=="NFCI"){
+   title="NFCI coefficients for real credit growth"
+ } else if (var=="credit" & beta=="FUI"){
+   title="FUI coefficients for real credit growth" 
+ }else if (var=="stock" & beta=="NFCI"){
+   title="NFCI coefficients for stock prices growth" 
+ }else if (var=="stock" & beta=="FUI"){
+   title="FUI coefficients for stock prices growth" 
+ }
 title<-""
 
 
@@ -130,15 +130,15 @@ minmax<- modelc %>% arrange(Sort) %>%
            mutate(tot=1) %>% group_by(tot) %>% 
            summarise(min=min(value),max=max(value))
 
-if (minmax$min<=-1.8) print(paste0("min está mal =",minmax$min))
-if (minmax$max>=1.8) print(paste0("max está mal=",minmax$max))
+if (minmax$min<=-1.74) print(paste0("min está mal =",minmax$min))
+if (minmax$max>=1.78) print(paste0("max está mal=",minmax$max))
 
 f1<-modelc %>% arrange(Sort) %>% 
   pivot_longer(names_to="variable",values_to="value",cols=c(-country,-Sort)) %>% 
   ggplot(aes(x=variable, y=country, fill= value)) +
   geom_tile() +
   scale_fill_gradient2(name = "Coefficients", low = "red", high = "darkblue", mid = "white", 
-                       midpoint =0, limits=c(-1.8,1.8), na.value="transparent")+
+                       midpoint =0, limits=c(-1.75,1.78), na.value="transparent")+
   ylab("") +
   xlab(expression("Quantiles"~tau)) + 
   labs(title=paste0("Horizon h=",h),
@@ -189,8 +189,8 @@ if (h==8)  g2_4<-f2
 if (h==12) g2_5<-f2
   
 
-#           ggsave(paste0("Figures/heatmap_",var,"_",us,"_h=",h,"_o=",o,".png"), 
-#                  ggarrange(f1,f2,ncol=2),width = 9, height = 6)
+           ggsave(paste0("Figures/heatmap_",var,"_",us,"_h=",h,"_o=",o,".png"), 
+                  ggarrange(f1,f2,ncol=2),width = 9, height = 6)
 }
 
 ggsave(paste0("../Figures/heatmap_coeff_",var,"_",us,"o=",o,".png"), 
