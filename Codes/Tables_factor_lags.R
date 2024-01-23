@@ -69,21 +69,21 @@ tabla_appendix[,2]<-c(
   "","IQR","Sig.","IQR","Sig.","IQR","Sig.","IQR","Sig.","IQR","Sig.","dTL","dTL")
 colnames(tabla_appendix)<-c("","","q=0.05","q=0.25","q=0.50","q=0.75","q=0.95")
 
-for (var in c("credit","stock","gdp")){
+for (var in c("stock","credit")){
   
-  M1_b1 <- loadRData(paste0("../Data/M1_",var,"_baseline_coef_b1.RData"))
-  M1_sig1 <- loadRData(paste0("../Data/M1_",var,"_baseline_sig_b1.RData"))
-  M1_b2 <- loadRData(paste0("../Data/M1_",var,"_baseline_coef_b2.RData"))
-  M1_sig2 <- loadRData(paste0("../Data/M1_",var,"_baseline_sig_b2.RData"))
-  M1_b3 <- loadRData(paste0("../Data/M1_",var,"_baseline_b3.RData"))
-  M1_sig3 <- loadRData(paste0("../Data/M1_",var,"_baseline_sig_b3.RData"))
-  M1_b4 <- loadRData(paste0("../Data/M1_",var,"_baseline_b4.RData"))
-  M1_sig4 <- loadRData(paste0("../Data/M1_",var,"_baseline_sig_b4.RData"))
-  M1_b5 <- loadRData(paste0("../Data/M1_",var,"_baseline_b5.RData"))
-  M1_sig5 <- loadRData(paste0("../Data/M1_",var,"_baseline_sig_b5.RData"))
+  M1_b1 <- loadRData(paste0("../Data/M1_",var,"_lags_coef_b1.RData"))
+  M1_sig1 <- loadRData(paste0("../Data/M1_",var,"_lags_sig_b1.RData"))
+  M1_b2 <- loadRData(paste0("../Data/M1_",var,"_lags_coef_b2.RData"))
+  M1_sig2 <- loadRData(paste0("../Data/M1_",var,"_lags_sig_b2.RData"))
+  M1_b3 <- loadRData(paste0("../Data/M1_",var,"_lags_b3.RData"))
+  M1_sig3 <- loadRData(paste0("../Data/M1_",var,"_lags_sig_b3.RData"))
+  M1_b4 <- loadRData(paste0("../Data/M1_",var,"_lags_b4.RData"))
+  M1_sig4 <- loadRData(paste0("../Data/M1_",var,"_lags_sig_b4.RData"))
+  M1_b5 <- loadRData(paste0("../Data/M1_",var,"_lags_b5.RData"))
+  M1_sig5 <- loadRData(paste0("../Data/M1_",var,"_lags_sig_b5.RData"))
   
-  M1_TL  <- loadRData(paste0("../Data/M1_",var,"_baseline_TL.RData"))
-  M2_TL <- loadRData(paste0("../Data/M2_",var,"_baseline_TL.RData"))
+  M1_TL  <- loadRData(paste0("../Data/M1_",var,"_lags_TL.RData"))
+  M2_TL <- loadRData(paste0("../Data/M2_",var,"_lags_TL.RData"))
   
   for (j in 2:6){
     h_name<-paste0("h0")
@@ -152,7 +152,7 @@ for (var in c("credit","stock","gdp")){
     tabla[33,j+1]=round(mean((-M1_TL[["h1"]][,j]+M2_TL[["h1"]][,j])/M2_TL[["h1"]][,j]*100),2)
     tabla[34,j+1]=round(mean((-M1_TL[["h4"]][,j]+M2_TL[["h4"]][,j])/M2_TL[["h4"]][,j]*100),2)
   }
-  write.table(tabla, file = paste0("../Tables/baseline_reg_",var,".txt"), sep = ",", quote = FALSE, row.names = F)
+  write.table(tabla, file = paste0("../Tables/lags_reg_",var,".txt"), sep = ",", quote = FALSE, row.names = F)
   
   for (j in 2:6){
     
@@ -203,6 +203,6 @@ for (var in c("credit","stock","gdp")){
     tabla_appendix[23,j+1]=round(mean((-M1_TL[["h8"]][,j]+M2_TL[["h8"]][,j])/M2_TL[["h8"]][,j]*100),2)
     tabla_appendix[24,j+1]=round(mean((-M1_TL[["h12"]][,j]+M2_TL[["h12"]][,j])/M2_TL[["h12"]][,j]*100),2)
   }
-  write.table(tabla_appendix, file = paste0("../Tables/baseline_reg_app_",var,".txt"), sep = ",", quote = FALSE, row.names = F)
+  write.table(tabla_appendix, file = paste0("../Tables/lags_reg_app_",var,".txt"), sep = ",", quote = FALSE, row.names = F)
   
 }
