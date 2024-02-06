@@ -41,7 +41,7 @@ data <- data %>% group_by(country) %>%
                         gdp=ifs_r_gdp, 
                         stock=ifs_n_shares, 
                         inf=ifs_prices) %>% 
-                        select(date,credit,country,yield,gdp,stock,inf)
+                        select(date,credit,country,gdp,stock) # inf, yield
 
 # Test ADF 
 complete_credit <-data  %>%   group_by(country) %>%   
@@ -49,10 +49,10 @@ complete_credit <-data  %>%   group_by(country) %>%
   select(date,country,credit) %>% 
   pivot_longer(names_to = "variable", values_to="value",cols=c(-country,-date))
 
-complete_yield <-data  %>%   group_by(country) %>%   
-  filter(complete.cases(yield,date)) %>% 
-  select(date,country,yield) %>% 
-  pivot_longer(names_to = "variable", values_to="value",cols=c(-country,-date))
+#complete_yield <-data  %>%   group_by(country) %>%   
+#  filter(complete.cases(yield,date)) %>% 
+#  select(date,country,yield) %>% 
+#  pivot_longer(names_to = "variable", values_to="value",cols=c(-country,-date))
 
 complete_gdp <-data  %>%   group_by(country) %>%   
   filter(complete.cases(gdp,date)) %>% 
@@ -64,13 +64,14 @@ complete_stock <-data  %>%   group_by(country) %>%
   select(date,country,stock) %>% 
   pivot_longer(names_to = "variable", values_to="value",cols=c(-country,-date))
 
-complete_inf <-data  %>%   group_by(country) %>%   
-  filter(complete.cases(inf,date)) %>% 
-  select(date,country,inf) %>% 
-  pivot_longer(names_to = "variable", values_to="value",cols=c(-country,-date))
+#complete_inf <-data  %>%   group_by(country) %>%   
+#  filter(complete.cases(inf,date)) %>% 
+#  select(date,country,inf) %>% 
+#  pivot_longer(names_to = "variable", values_to="value",cols=c(-country,-date))
 
 
-complete_data<- rbind(complete_credit,complete_yield,complete_gdp,complete_stock,complete_inf)
+complete_data<- rbind(complete_credit,complete_gdp,complete_stock)
+#complete_yield,complete_inf
 
 #Figura 1
 
@@ -106,21 +107,21 @@ Tabla1<- complete_data %>%
   group_by(country,variable) %>% 
   summarise(start1=first(as.yearqtr(date)),end1=last(as.yearqtr(date)),n=n())
 
-write.table(Tabla1, file = "Tables/TablaA1.txt", sep = ",", quote = FALSE, row.names = F)
+write.table(Tabla1, file = "../Tables/TablaA1.txt", sep = ",", quote = FALSE, row.names = F)
 
 ## Tabla A2
 
-Credit_to_GDPA <- read_excel("Data/USdirectinvest.xlsx", sheet = "Credit_to_GDP") %>% 
+Credit_to_GDPA <- read_excel("../Data/USdirectinvest.xlsx", sheet = "Credit_to_GDP") %>% 
   pivot_longer(names_to="year",values_to="value",cols=c(-country,-isocode)) %>% 
   group_by(country) %>% 
   summarise(Credit_to_GDP=mean(value,na.rm = TRUE),N1=sum(!is.na(value)))
 
-Chinn_Ito <- read_excel("Data/USdirectinvest.xlsx", sheet = "Chinn-Ito") %>% 
+Chinn_Ito <- read_excel("../Data/USdirectinvest.xlsx", sheet = "Chinn-Ito") %>% 
   pivot_longer(names_to="year",values_to="value",cols=c(-country,-isocode)) %>% 
   group_by(country) %>% 
   summarise(MarketCAP_to_GDP=mean(value,na.rm = TRUE),N2=sum(!is.na(value)))
 
-inv_GDP <- read_excel("Data/USdirectinvest.xlsx", sheet = "inv_GDP") %>% 
+inv_GDP <- read_excel("../Data/USdirectinvest.xlsx", sheet = "inv_GDP") %>% 
   pivot_longer(names_to="year",values_to="value",cols=c(-country,-isocode)) %>% 
   group_by(country) %>% 
   summarise(inv_GDP=mean(value,na.rm = TRUE),N3=sum(!is.na(value)))
@@ -130,18 +131,17 @@ TablaA2<-left_join(Credit_to_GDPA,Chinn_Ito,by="country")
 TablaA2<-left_join(TablaA2,inv_GDP ,by="country") %>% 
   mutate_each(funs(round(., 2)),-c(country,N2,N1,N3)) 
 
-write.table(TablaA2, file = "Tables/TablaA2.txt", sep = ",", quote = FALSE, row.names = F)
+write.table(TablaA2, file = "../Tables/TablaA2.txt", sep = ",", quote = FALSE, row.names = F)
 
 
 # Segundo, se realizan las transformaciones
 
 complete_data2<- complete_data  %>% 
   group_by(country) %>% 
-  mutate(value = case_when(variable =="stock" ~ log(value)-log(lag(value,1)),
-                           variable =="yield" ~ value-lag(value,1), 
+  mutate(value = case_when(variable =="stock" ~ log(value)-log(lag(value,1)), # variable =="yield" ~ value-lag(value,1), 
                            variable =="credit" ~ log(value)-log(lag(value,1)),
-                           variable =="gdp" ~ log(value)-log(lag(value,1)),
-                           variable =="inf" ~ log(value)-2*log(lag(value,1))+log(lag(value,2))))
+                           variable =="gdp" ~ log(value)-log(lag(value,1))))
+                           #variable =="inf" ~ log(value)-2*log(lag(value,1))+log(lag(value,2))))
 
 
 g3<-ggplot(complete_data2[complete_data2$date>="1960-01-01",]) + 
@@ -181,7 +181,7 @@ data_final_long<-complete_data2[complete_data2$date>="1960-01-01",]
 
 # Table A4
   
-  TablaA4 <-  data %>%  select(country,date,credit,gdp,inf,stock,yield) %>% 
+  TablaA4 <-  data %>%  select(country,date,credit,gdp,stock) %>% #inf,yield
     pivot_longer(names_to="variable",values_to="value",cols=-c(date,country)) %>% 
     group_by(country,variable) %>% 
     summarise(Mean=round(mean(value,na.rm = T),2),Sd=round(sd(value,na.rm = T),2),Min=round(min(value,na.rm = T),2)
@@ -189,8 +189,8 @@ data_final_long<-complete_data2[complete_data2$date>="1960-01-01",]
   
     
 
-write.table(TablaA4, file = "Tables/TablaA4.txt", sep = ",", quote = FALSE, row.names = F)
+write.table(TablaA4, file = "../Tables/TablaA4.txt", sep = ",", quote = FALSE, row.names = F)
 
 
-ggsave(paste0("Figures/figA1.png"),
+ggsave(paste0("../Figures/figA1.png"),
        ggarrange(g1,g2,g3,g4, ncol = 2,nrow = 2), width = 12, height = 12)

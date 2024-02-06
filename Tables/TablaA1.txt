@@ -1,0 +1,109 @@
+country,variable,start1,end1,n
+Argentina,credit,1950 Q1,2019 Q4,280
+Argentina,gdp,1957 Q1,2019 Q4,252
+Australia,credit,1950 Q1,2019 Q4,280
+Australia,gdp,1957 Q1,2019 Q4,252
+Australia,stock,1950 Q1,2019 Q4,280
+Austria,credit,1950 Q1,2019 Q4,280
+Austria,gdp,1950 Q1,2019 Q4,280
+Austria,stock,1950 Q1,2019 Q4,280
+Belgium,credit,1950 Q4,2019 Q4,277
+Belgium,gdp,1950 Q1,2019 Q4,280
+Belgium,stock,1951 Q1,2019 Q4,276
+Bolivia,credit,1950 Q4,2019 Q3,276
+Brazil,credit,1950 Q4,2019 Q4,277
+Brazil,gdp,1957 Q1,2019 Q4,252
+Canada,credit,1950 Q1,2019 Q4,280
+Canada,gdp,1950 Q1,2019 Q4,280
+Canada,stock,1950 Q1,2019 Q4,280
+Chile,credit,1950 Q4,2019 Q4,277
+Chile,gdp,1950 Q1,2019 Q4,280
+Chile,stock,1953 Q1,2019 Q4,268
+Colombia,credit,1952 Q4,2019 Q4,269
+Costa Rica,credit,1950 Q4,2019 Q4,277
+Cyprus,credit,1958 Q1,2019 Q4,248
+Denmark,credit,1950 Q1,2019 Q4,280
+Denmark,gdp,1950 Q1,2019 Q4,280
+Denmark,stock,1950 Q1,2019 Q4,280
+Finland,credit,1950 Q4,2019 Q4,277
+Finland,gdp,1950 Q1,2019 Q4,280
+Finland,stock,1951 Q1,2019 Q4,276
+France,credit,1950 Q1,2019 Q4,280
+France,gdp,1950 Q1,2019 Q4,280
+France,stock,1950 Q1,2019 Q4,280
+Germany,credit,1950 Q1,2019 Q4,280
+Germany,gdp,1950 Q1,2019 Q4,280
+Germany,stock,1953 Q1,2019 Q4,268
+Greece,credit,1953 Q4,2019 Q4,265
+Greece,gdp,1950 Q2,2019 Q4,279
+Guatemala,credit,1950 Q4,2019 Q4,277
+Honduras,credit,1950 Q4,2019 Q4,277
+Iceland,credit,1955 Q1,2018 Q4,256
+Iceland,gdp,1957 Q2,2019 Q4,251
+India,credit,1950 Q1,2019 Q4,280
+India,gdp,1950 Q1,2019 Q4,280
+India,stock,1950 Q1,2019 Q4,280
+Ireland,credit,1950 Q1,2019 Q4,280
+Ireland,gdp,1950 Q1,2019 Q4,280
+Ireland,stock,1955 Q1,2019 Q4,260
+Israel,credit,1951 Q4,2019 Q4,273
+Israel,gdp,1957 Q1,2019 Q4,252
+Israel,stock,1955 Q1,2019 Q4,260
+Italy,credit,1950 Q1,2019 Q4,280
+Italy,gdp,1950 Q1,2019 Q4,280
+Italy,stock,1950 Q1,2019 Q4,280
+Japan,credit,1950 Q1,2019 Q4,280
+Japan,gdp,1950 Q1,2019 Q4,280
+Japan,stock,1950 Q1,2019 Q4,280
+Korea,credit,1951 Q4,2019 Q4,273
+Korea,gdp,1957 Q1,2019 Q4,252
+Luxembourg,gdp,1950 Q1,2019 Q4,280
+Malaysia,credit,1952 Q4,2019 Q4,269
+Mexico,credit,1950 Q1,2019 Q4,280
+Mexico,gdp,1950 Q1,2019 Q4,280
+Mexico,stock,1950 Q1,2019 Q4,280
+Morocco,credit,1959 Q1,2019 Q4,244
+Morocco,gdp,1957 Q1,2019 Q4,252
+Netherlands,credit,1950 Q1,2019 Q4,280
+Netherlands,gdp,1950 Q1,2019 Q4,280
+Netherlands,stock,1950 Q1,2019 Q4,280
+New Zealand,credit,1950 Q1,2019 Q4,280
+New Zealand,gdp,1957 Q1,2019 Q4,252
+New Zealand,stock,1950 Q1,2019 Q4,280
+Norway,credit,1950 Q1,2019 Q4,280
+Norway,gdp,1950 Q1,2019 Q4,280
+Norway,stock,1950 Q1,2019 Q4,280
+Pakistan,credit,1950 Q4,2019 Q4,277
+Pakistan,gdp,1950 Q1,2019 Q4,280
+Peru,credit,1950 Q4,2019 Q4,277
+Peru,stock,1950 Q1,2019 Q4,280
+Philippines,credit,1950 Q4,2019 Q4,277
+Philippines,gdp,1963 Q1,2019 Q4,228
+Philippines,stock,1953 Q1,2019 Q4,268
+Portugal,credit,1950 Q1,2019 Q4,280
+Portugal,gdp,1955 Q1,2019 Q4,260
+South Africa,credit,1950 Q4,2019 Q4,277
+South Africa,gdp,1957 Q1,2019 Q4,252
+South Africa,stock,1950 Q1,2019 Q4,280
+Spain,credit,1953 Q4,2019 Q4,265
+Spain,gdp,1950 Q1,2019 Q4,280
+Spain,stock,1950 Q1,2019 Q4,280
+Sweden,credit,1950 Q1,2019 Q4,280
+Sweden,gdp,1950 Q1,2019 Q4,280
+Sweden,stock,1950 Q1,2019 Q4,280
+Switzerland,credit,1950 Q1,2019 Q4,280
+Switzerland,gdp,1955 Q1,2019 Q4,260
+Switzerland,stock,1950 Q1,2019 Q4,280
+Taiwan,credit,1957 Q1,2018 Q4,248
+Taiwan,gdp,1957 Q1,2019 Q4,252
+Thailand,credit,1950 Q4,2019 Q4,277
+Turkey,credit,1950 Q4,2019 Q4,277
+Turkey,gdp,1957 Q1,2019 Q4,252
+United Kingdom,credit,1950 Q1,2019 Q4,280
+United Kingdom,gdp,1950 Q1,2019 Q4,280
+United Kingdom,stock,1950 Q1,2019 Q4,280
+United States,credit,1950 Q1,2019 Q4,280
+United States,gdp,1950 Q1,2019 Q4,280
+United States,stock,1950 Q1,2019 Q4,280
+Uruguay,credit,1950 Q4,2019 Q4,277
+Uruguay,gdp,1957 Q1,2019 Q4,252
