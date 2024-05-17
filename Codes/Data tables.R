@@ -36,17 +36,17 @@ data$date_n <- as.yearqtr(paste0(data$year, "-", data$quarter),format = "%Y-%q")
 # Generar variables siguiendo las recomendaciones de McCracken y Ng(2016,2020)
 # Primero, se prueba estacionariedad con ADF
 data <- data %>% group_by(country) %>% 
-                        mutate(credit=ifs_n_credit/ifs_prices,
+                        mutate(`Real credit growth`=ifs_n_credit/ifs_prices,
                         yield=ifs_n_bonds, 
-                        gdp=ifs_r_gdp, 
-                        stock=ifs_n_shares, 
+                        `Real GDP growth`=ifs_r_gdp, 
+                        `Stock growth`=ifs_n_shares, 
                         inf=ifs_prices) %>% 
-                        select(date,credit,country,gdp,stock) # inf, yield
+                        select(date,`Real credit growth`,country,`Real GDP growth`,`Stock growth`) # inf, yield
 
 # Test ADF 
 complete_credit <-data  %>%   group_by(country) %>%   
-  filter(complete.cases(credit,date)) %>% 
-  select(date,country,credit) %>% 
+  filter(complete.cases(`Real credit growth`,date)) %>% 
+  select(date,country,`Real credit growth`) %>% 
   pivot_longer(names_to = "variable", values_to="value",cols=c(-country,-date))
 
 #complete_yield <-data  %>%   group_by(country) %>%   
@@ -55,13 +55,13 @@ complete_credit <-data  %>%   group_by(country) %>%
 #  pivot_longer(names_to = "variable", values_to="value",cols=c(-country,-date))
 
 complete_gdp <-data  %>%   group_by(country) %>%   
-  filter(complete.cases(gdp,date)) %>% 
-  select(date,country,gdp) %>% 
+  filter(complete.cases(`Real GDP growth`,date)) %>% 
+  select(date,country,`Real GDP growth`) %>% 
   pivot_longer(names_to = "variable", values_to="value",cols=c(-country,-date))
 
 complete_stock <-data  %>%   group_by(country) %>%   
-  filter(complete.cases(stock,date)) %>% 
-  select(date,country,stock) %>% 
+  filter(complete.cases(`Stock growth`,date)) %>% 
+  select(date,country,`Stock growth`) %>% 
   pivot_longer(names_to = "variable", values_to="value",cols=c(-country,-date))
 
 #complete_inf <-data  %>%   group_by(country) %>%   
@@ -138,16 +138,16 @@ write.table(TablaA2, file = "../Tables/TablaA2.txt", sep = ",", quote = FALSE, r
 
 complete_data2<- complete_data  %>% 
   group_by(country) %>% 
-  mutate(value = case_when(variable =="stock" ~ log(value)-log(lag(value,1)), # variable =="yield" ~ value-lag(value,1), 
-                           variable =="credit" ~ log(value)-log(lag(value,1)),
-                           variable =="gdp" ~ log(value)-log(lag(value,1))))
+  mutate(value = case_when(variable =="Stock growth" ~ log(value)-log(lag(value,1)), # variable =="yield" ~ value-lag(value,1), 
+                           variable =="Real credit growth" ~ log(value)-log(lag(value,1)),
+                           variable =="Real GDP growth" ~ log(value)-log(lag(value,1))))
                            #variable =="inf" ~ log(value)-2*log(lag(value,1))+log(lag(value,2))))
 
 
 g3<-ggplot(complete_data2[complete_data2$date>="1960-01-01",]) + 
   geom_jitter(aes(x=date, y=value, group=variable, color=country), show.legend=FALSE) +
   facet_wrap(~variable, scales = "free_y") + 
-  labs(title="c. Transformed data (1960-2019)", x="", y="",
+  labs(title="a. Time series plots (1960-2019)", x="", y="",
        caption="Note: Each color represents a country.")+
   viridis::scale_color_viridis(discrete=TRUE,option="magma") +
   theme_bw()+
@@ -166,7 +166,7 @@ g4<-ggplot(tests2) +
   geom_point(aes(y=variable, x=p_adf, colour=country), show.legend = FALSE,position = "jitter") +
   geom_vline( xintercept = 0.05) +
   scale_x_continuous(breaks=seq(0, 1, 0.5),limits=c(0, 1)) +
-  labs(title="d. ADF tests for transformed data, p-value", x="", y="",
+  labs(title="b. ADF tests, p-value", x="", y="",
        caption = paste0("Note: Each color represents a country."))+
   viridis::scale_color_viridis(discrete=TRUE,option="magma") +
   theme_bw()+
@@ -181,7 +181,7 @@ data_final_long<-complete_data2[complete_data2$date>="1960-01-01",]
 
 # Table A4
   
-  TablaA4 <-  data %>%  select(country,date,credit,gdp,stock) %>% #inf,yield
+  TablaA4 <-  data %>%  select(country,date,`Real credit growth`,`Real GDP growth`,`Stock growth`) %>% #inf,yield
     pivot_longer(names_to="variable",values_to="value",cols=-c(date,country)) %>% 
     group_by(country,variable) %>% 
     summarise(Mean=round(mean(value,na.rm = T),2),Sd=round(sd(value,na.rm = T),2),Min=round(min(value,na.rm = T),2)
@@ -193,4 +193,4 @@ write.table(TablaA4, file = "../Tables/TablaA4.txt", sep = ",", quote = FALSE, r
 
 
 ggsave(paste0("../Figures/figA1.png"),
-       ggarrange(g1,g2,g3,g4, ncol = 2,nrow = 2), width = 12, height = 12)
+       ggarrange(g3,g4, ncol = 2,nrow = 1), width = 12, height = 6)
