@@ -139,9 +139,9 @@ g1<-loadings_global %>% arrange(desc(y)) %>%
                linetype="dashed", 
                size=0.1) +   # Draw dashed lines
   aes(x = fct_inorder(names))+
-  labs(title="", 
+  labs(title="a) Credit factor", 
        subtitle="", 
-       caption="",x="",y="Credit weights") +  
+       caption="",x="",y="Loadings") +  
   theme_classic()+
   coord_flip()
 
@@ -165,9 +165,9 @@ g2<-loadings_global %>% arrange(desc(y)) %>%
                linetype="dashed", 
                size=0.1) +   # Draw dashed lines
   aes(x = fct_inorder(names))+
-  labs(title="", 
+  labs(title="b) Stocks factor", 
        subtitle="", 
-       caption="",x="",y="Stocks weights") +  
+       caption="",x="",y="Loadings") +  
   theme_classic()+
   coord_flip()
 
@@ -192,19 +192,15 @@ g3<-loadings_global %>% arrange(desc(y)) %>%
                linetype="dashed", 
                size=0.1) +   # Draw dashed lines
   aes(x = fct_inorder(names))+
-  labs(title="", 
+  labs(title="c) GDP factor", 
        subtitle="", 
-       caption="",x="",y="GDP weights") +  
+       caption="",x="",y="Loadings") +  
   theme_classic()+
   coord_flip()
 
-
-ggsave(paste0("../Figures/FIG1",".png"),
-       ggarrange(g1,g2,g3,ncol = 3), width = 7, height = 6)
-
-plot(ts(dfm_global$pca[,1]),t="l")
-plot(ts(dfm_global2$pca[,1]),t="l",col=2)
-plot(ts(dfm_global3$pca[,1]),t="l",col=3)
+  
+  ggsave(paste0("../Figures/FIG1_loadings",".png"),
+         ggarrange(g1,g2,g3,ncol = 3), width = 8, height = 6)
 
 
 
@@ -236,7 +232,43 @@ US$date<-as.Date(US$date,format = "%Y-%q") # datos desde 1971-01-01
 data_final<-left_join(data_final,US,by ="date")
 
 
-write.csv( data_final, file = "../Data/Data_final.csv")
+# write.csv( data_final, file = "../Data/Data_final.csv")
+
+
+banner("Parte 5:", "FIGURE", emph = F)
+##################################################################
+##                           Parte 5:                           ##
+##                            FIGURE                            ##
+##################################################################
+
+recessions.df = read.table(textConnection(
+  "Peak, Trough
+  1960-01-01, 1960-10-01
+  1970-01-01, 1970-07-01
+  1973-10-01, 1975-01-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-10-01
+  1990-07-01, 1991-01-01
+  2001-01-01, 2001-10-01
+  2008-10-01, 2009-04-01"), sep=',',
+  colClasses=c('Date', 'Date'), header=TRUE)
 
 
 
+date<-data_final_long[data_final_long$country=="Argentina" & data_final_long$variable=="credit","date"]$date
+
+
+ggplot()+
+  geom_line(aes(y=scale(dfm_global$twostep[,1]),x=date,col="Global credit factor"))+
+  geom_line(aes(y=scale(dfm_global2$twostep[,1]),x=date,col="Global stocks factor"))+
+  geom_line(aes(y=scale(dfm_global3$twostep[,1]),x=date,col="Global GDP factor"))+
+  geom_line(aes(y=US$NFCI[-244:-241],x=date,col="NFCI"))+
+  geom_rect(data = recessions.df, inherit.aes=F, 
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill='gray10', alpha=0.2)+
+  scale_colour_manual(values=c("Global credit factor"="blue","Global stocks factor"="black","Global GDP factor"="orange",
+                               "NFCI"="purple"))+
+  labs(x = "",
+       y = "",col="",caption = "Note: NBER recessiones dates in gray.") +
+  theme_bw() +
+  theme(legend.position = "bottom", legend.direction = "horizontal",
+        plot.caption = element_text(hjust = 0)) 
