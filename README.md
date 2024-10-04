@@ -1,5 +1,5 @@
 # Vulnerable Funding RR2
- Vulnerable funding RR JBF
+Chuliá, H., Garrón, I., & Uribe, J. M. (2024). Vulnerable Funding in the Global Economy. Journal of Banking & Finance, 107314.
 
 
 # Steps to get results from the pubished paper
