@@ -14,4 +14,4 @@ Chuliá, H., Garrón, I., & Uribe, J. M. (2024). Vulnerable Funding in the Globa
 8. Run "Heat_maps_NFCI.R" to get the heatmaps for both the main results of the paper and Online Appendix F.
 9. Run "Time_reg.R" to get main results for the time series relationship between GaR and CaR estimates.
 10. Run "DevelopedvsLACrevised.R" to get main results for the Appendix G.
-11. Rund "Crosssecional.R" to get the results for Table4.
+11. Run "Crosssecional.R" to get the results for Table4.
