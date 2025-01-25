@@ -16,4 +16,4 @@ Chuliá, H., Garrón, I., & Uribe, J. M. (2024). Vulnerable Funding in the Globa
 10. Run "DevelopedvsLACrevised.R" to get main results for the Appendix G.
 11. Run "Crosssecional.R" to get the results for Table4.
 
-Note: This replication file was not orginally inteded for another user. Contact me any further question.
+Note: This replication file was not orginally inteded for another user. Contact me for any further question.
